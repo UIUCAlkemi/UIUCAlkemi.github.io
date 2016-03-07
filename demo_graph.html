@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <link type="text/css" rel="stylesheet" href="/stylesheet/styles.css"/>
     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>  
     <style type="text/css">
 
@@ -53,7 +53,7 @@ var vis = d3.select("#body").append("svg:svg")
   .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-d3.json("flare.json", function(json) {
+d3.json("data/flare.json", function(json) {
   root = json;
   root.x0 = h / 2;
   root.y0 = 0;
