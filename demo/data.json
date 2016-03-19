@@ -1,8 +1,8 @@
 {
    "name": "0",
-   "info1": "shear <= 0.7306",
-   "info2": "mse = 0.0291759892327",
-   "info3": "samples = 7088",
+   "info1": "scaledJacobian <= 0.7306",
+   "info2": "mse = 0.0501475013341",
+   "info3": "samples = 3868",
    "children": [{
       "name": "1",
       "info1": "jacobian <= 0.0000",
@@ -32,7 +32,7 @@
             },{
             "name": "6",
             "info1": "stretch <= 0.1008",
-            "info2": "mse = 0.0731167275383",
+            "info2": "mse = 0.0731167275384",
             "info3": "samples = 37",
             "children": [{
                "name": "7",
@@ -87,69 +87,80 @@
          }]
       },{
       "name": "16",
-      "info1": "taper <= 0.5007",
-      "info2": "mse = 4.02453505133e-05",
-      "info3": "samples = 6451",
+      "info1": "skew <= 0.3554",
+      "info2": "mse = 8.02373248707e-05",
+      "info3": "samples = 3231",
       "children": [{
          "name": "17",
          "info1": "skew <= 0.3552",
-         "info2": "mse = 1.86152284835e-06",
-         "info3": "samples = 6443",
+         "info2": "mse = 3.71938852082e-06",
+         "info3": "samples = 3223",
          "children": [{
             "name": "18",
-            "info1": "mse = 0.0000",
-            "info2": "samples = 6440",
-            "info3": "value = [  3.10559006e-06]"
+            "info1": "distortion <= 0.9368",
+            "info2": "mse = 1.24185023726e-07",
+            "info3": "samples = 3220",
+            "children": [{
+               "name": "19",
+               "info1": "mse = 0.0000",
+               "info2": "samples = 1",
+               "info3": "value = [ 0.02]"
+               },{
+               "name": "20",
+               "info1": "mse = 0.0000",
+               "info2": "samples = 3219",
+               "info3": "value = [ 0.]"
+               }]
             },{
-            "name": "19",
-            "info1": "stretch <= 0.2728",
+            "name": "21",
+            "info1": "shear <= 0.7312",
             "info2": "mse = 0.000266666666667",
             "info3": "samples = 3",
             "children": [{
-               "name": "20",
+               "name": "22",
                "info1": "mse = 0.0000",
                "info2": "samples = 1",
                "info3": "value = [ 0.08]"
                },{
-               "name": "21",
+               "name": "23",
                "info1": "mse = 0.0001",
                "info2": "samples = 2",
                "info3": "value = [ 0.05]"
                }]
             }]
          },{
-         "name": "22",
-         "info1": "stretch <= 0.2725",
+         "name": "24",
+         "info1": "smallestAngle <= 47.2671",
          "info2": "mse = 0.0021",
          "info3": "samples = 8",
          "children": [{
-            "name": "23",
-            "info1": "skew <= 0.3558",
+            "name": "25",
+            "info1": "conditionNumber <= 2.8886",
             "info2": "mse = 0.0005",
             "info3": "samples = 4",
             "children": [{
-               "name": "24",
+               "name": "26",
                "info1": "mse = 0.0001",
                "info2": "samples = 2",
                "info3": "value = [ 0.19]"
                },{
-               "name": "25",
+               "name": "27",
                "info1": "mse = 0.0001",
                "info2": "samples = 2",
                "info3": "value = [ 0.23]"
                }]
             },{
-            "name": "26",
-            "info1": "taper <= 0.5008",
+            "name": "28",
+            "info1": "largestAngle <= 133.0286",
             "info2": "mse = 0.0005",
             "info3": "samples = 4",
             "children": [{
-               "name": "27",
+               "name": "29",
                "info1": "mse = 0.0001",
                "info2": "samples = 2",
                "info3": "value = [ 0.11]"
                },{
-               "name": "28",
+               "name": "30",
                "info1": "mse = 0.0001",
                "info2": "samples = 2",
                "info3": "value = [ 0.15]"

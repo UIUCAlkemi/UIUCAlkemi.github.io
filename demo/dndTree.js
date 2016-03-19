@@ -17,6 +17,9 @@ var root;
 var viewerWidth = window.innerWidth;
 var viewerHeight = window.innerHeight;
 
+//test if legend initialized
+var legend_init = 0;
+
 var tree = d3.layout.tree()
     .size([viewerHeight, viewerWidth]);
 
@@ -100,41 +103,11 @@ function collapse(d) {
     }
 }
 
-<<<<<<< HEAD
 function expand(d) {
     if (d._children) {
         d.children = d._children;
         d.children.forEach(expand);
         d._children = null;
-=======
-    var nodeColor = d3.scale.category10()
-            .domain(domainList);
-            //.range(c20);
-    // var svg1 = d3.select("#color-Indicator")
-    //          .append("svg")
-    //          .attr("width", 50)
-    //          .attr("height", 400);
-             // .attr("class", "overlay");
-    // svg1.selectAll("circle")
-    // .data( d3.range(10) )
-    // .enter()
-    // .append("circle")
-    // .attr("r", 18 )
-    // .attr("cx", d3.scale.linear().domain([-1, 10]).range([0, 400]) )
-    // .attr("cy", 25)
-    // .attr("fill", c10 );
-   // set legend
-//    var legendRectSize = 18;
- //   var legendSpacing = 4;
-
-
-    // sort the tree according to the node names
-
-    function sortTree() {
-        tree.sort(function(a, b) {
-            return b.name.toLowerCase() < a.name.toLowerCase() ? 1 : -1;
-        });
->>>>>>> origin/master
     }
 }
 
@@ -270,8 +243,8 @@ function update(source) {
             return d.children || d._children ? "end" : "start";
         })
         .text(function(d) {
-            // if(d.active) return "->";
-            return d.active ? d.info1 + ", " + d.info2 +  ", " + d.info3 : "->";
+            // if(d.active) return "→";
+            return d.active ? d.info1 + ", " + d.info2 +  ", " + d.info3 : "→";
         })
         .style("fill-opacity", 0)
         .on('click', click2)
@@ -293,13 +266,17 @@ function update(source) {
     // Update the text to reflect whether node has children or not.
     node.select("text.nodeText")
         .text(function(d) {
-            return d.active ? d.info1 + ", " + d.info2 +  ", " + d.info3 : "->";
+            return d.active ? d.info1 + ", " + d.info2 +  ", " + d.info3 : "→";
         });
 
 
     // Change the circle fill depending on whether it has children and is collapsed
     node.select("circle.nodeCircle")
         .attr("r", 4.5)
+        .attr("data-legend",function(d){
+            var tag = d.info1.split(" ");
+            return tag[0];
+        })
         .style("fill", function(d) {
             var tag = d.info1.split(" ");
             //return 
@@ -338,7 +315,6 @@ function update(source) {
             return d.target.id;
         });
 
-<<<<<<< HEAD
     // Enter any new links at the parent's previous position.
     link.enter().insert("path", "g")
         .attr("class", "link")
@@ -352,89 +328,6 @@ function update(source) {
                 target: o
             });
         });
-=======
-        // Update the nodes…
-        node = svgGroup.selectAll("g.node")
-            .data(nodes, function(d) {
-                return d.id || (d.id = ++i);
-            });
-
-        // Enter any new nodes at the parent's previous position.
-        var nodeEnter = node.enter().append("g")
-            .call(dragListener)
-            .attr("class", "node")
-            .attr("transform", function(d) {
-                return "translate(" + source.y0 + "," + source.x0 + ")";
-            });
-            // .on('click', click);
-
-        nodeEnter.append("circle")
-            .attr('class', 'nodeCircle')
-            .attr("r", 0)
-            .on('click', click)
-            .attr("data-legend", function (d) {
-                var tag = d.info1.split(" ");
-                return tag[0];
-            })
-            .style("fill", function(d) {
-                // return d._children ? "lightsteelblue" : "#fff";
-                var tag = d.info1.split(" ");
-                return nodeColor(tag[0]);
-            });
- 
-
-        nodeEnter.append("text")
-            .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
-            })
-            .attr("dy", ".35em")
-            .attr('class', 'nodeText')
-            .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
-            })
-            .text(function(d) {
-                // if(d.active) return "->";
-                return d.active ? d.info1 + ", " + d.info2 +  ", " + d.info3 : "->";
-            })
-            .style("fill-opacity", 0)
-            .on('click', click2)//function(d){
-            // // if (d3.event.defaultPrevented) return; // click suppressed
-            // // Determine if current line is visible
-            // var active   = d.active ? false : true;
-            //   // newOpacity = active ? 0 : 1;
-            //   // if(active){
-            //   //   node.select("text").text("->");
-            //   //   // node.select("text") = null;
-            //   // }
-            //   // else{
-            //   //   node.select("text").text(function(d) {
-            //   //       return d.info1 + ", " + d.info2 +  ", " + d.info3;
-            //   //   });
-            //   //   // d.select("text") = d.select("_text");
-            //   //   // d.select("_text") = null;
-            //   // }
-            // // Hide or show the elements
-            // // d.select("text").style("opacity", newOpacity);
-            // // d3.select("#blueAxis").style("opacity", newOpacity);
-            // // Update whether or not the elements are active
-            // d.active = active;
-            // })
-
-        // phantom node to give us mouseover in a radius around it
-        nodeEnter.append("circle")
-            .attr('class', 'ghostCircle')
-            .attr("r", 30)
-            .attr("opacity", 0.2) // change this to zero to hide the target area
-            .style("fill", "red")
-            .attr('pointer-events', 'mouseover')
-            .on("mouseover", function(node) {
-                overCircle(node);
-            })
-            .on("mouseout", function(node) {
-                outCircle(node);
-            });
-        
->>>>>>> origin/master
 
     // Transition links to their new position.
     link.transition()
@@ -461,6 +354,24 @@ function update(source) {
         d.x0 = d.x;
         d.y0 = d.y;
     });
+    
+    //legend adding function
+    if(legend_init == 0){
+        var legend = svgGroup.append("g")
+              .attr("class","legend")
+              .attr("transform","translate(200,30)")
+              .style("font-size","12px")
+              .call(d3.legend)
+        legend_init = 1;
+    }
+    else{
+        var legend = svgGroup.select("g.legend")
+              .attr("class","legend")
+              .attr("transform","translate(200,30)")
+              .style("font-size","12px")
+              .call(d3.legend)  
+        
+    }
 }
 
 // functin that resizes the tree and canvass
@@ -505,70 +416,9 @@ function show() {
         update(root);
         centerNode(root);
 
-<<<<<<< HEAD
         // Resize the window when the viewport changes
         d3.select(window).on("resize", resize);
     });
 }
-=======
-        // Transition links to their new position.
-        link.transition()
-            .duration(duration)
-            .attr("d", diagonal);
-
-        // Transition exiting nodes to the parent's new position.
-        link.exit().transition()
-            .duration(duration)
-            .attr("d", function(d) {
-                var o = {
-                    x: source.x,
-                    y: source.y
-                };
-                return diagonal({
-                    source: o,
-                    target: o
-                });
-            })
-            .remove();
-
-        // Stash the old positions for transition.
-        nodes.forEach(function(d) {
-            d.x0 = d.x;
-            d.y0 = d.y;
-        });
-
-        legend = svgGroup.append("g")
-          .attr("class", "legend")
-          .attr("transform", "translate(150,30)")
-          .style("font-size", "12px")
-          .call(d3.legend)
-        /*
-        //add legend
-        var legend = svgGroup.selectAll('.legend')                     // NEW
-          .data(color.domain())                                   // NEW
-          .enter()                                                // NEW
-          .append('g')                                            // NEW
-          .attr('class', 'legend')                                // NEW
-          .attr('transform', function (d, i) {                     // NEW
-              var height = legendRectSize + legendSpacing;          // NEW
-              var offset = height * color.domain().length / 2;     // NEW
-              var horz = -2 * legendRectSize;                       // NEW
-              var vert = i * height - offset;                       // NEW
-              return 'translate(' + horz + ',' + vert + ')';        // NEW
-          });                                                     // NEW
-
-        legend.append('rect')                                     // NEW
-          .attr('width', legendRectSize)                          // NEW
-          .attr('height', legendRectSize)                         // NEW
-          .style('fill', color)                                   // NEW
-          .style('stroke', color);                                // NEW
-
-        legend.append('text')                                     // NEW
-          .attr('x', legendRectSize + legendSpacing)              // NEW
-          .attr('y', legendRectSize - legendSpacing)              // NEW
-          .text(function (d) { return d; });
-          */
-    }
->>>>>>> origin/master
 
 show();
