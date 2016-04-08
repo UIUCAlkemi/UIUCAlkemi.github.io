@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/loader.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css">
+    <link href='http://fonts.googleapis.com/css?family=Lekton:400,400italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:200,400,300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Muli:300,300italic' rel='stylesheet' type='text/css'>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript" src="js/three.min.js"></script>
+    <script type="text/javascript" src="js/TrackballControls.js"></script>
+    <script type="text/javascript" src="js/program.js"></script>
+    <script type="text/javascript" src="js/controls.js"></script>
+    <script type="text/javascript" src="js/jquery.fullPage.min.js"></script>
+    <script type="text/javascript" src="js/VTKLoader.js"></script>
+
+
+</head>
+
+
+<body id="body">
+    <div id="loadingWrapper">
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+    </div>
+    <div id="fullpage">
+        <div class="section" id="ViewSpace">
+
+            <div id="ViewSpaceWrapper">
+                <div id="webglHolder">
+
+                    <div id="canvasHolder">
+
+                        <canvas id="Canvas" width="1920" height="1080">
+                        </canvas>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="section" id="ControlSpace">
+            <div id="ControlSpaceWrapper">
+                <div id="Controls">
+                    <div class="ControlButton" id="CameraMovementButton">Camera Movement.</div>
+                    <div class="ControlButton" id="BarycentricShrinkFactorButton">Barycentric Shrinking Factor.</div>
+                    <div class="ControlButton" id="SelectZoneButton">Select Zone.</div>
+                    <div class="ControlButton" id="ShowColorButton">Show Colors.</div>
+                    <div class="ControlButton" id="ZoneSeparationButton">Separate Zones.</div>
+                    <div class="ControlButton" id="LoadSourceButton">Load Source.</div>
+                </div>
+                <div id="InformationSpaceWapper">
+                    <div id="InformationSpaceWapper2">
+                        <div id="InformationSpace">
+                            <div id="CameraControlsDisplay">
+                                <p>
+                                    Enable or disable camera controls.
+                                    <form>
+                                        <fieldset>
+                                            <legend>Enable or Not</legend>
+                                            <input type="radio" name="field" id="enableCamaraControls" value="enableCamaraControls" checked> 
+                                            Enable camera controls
+                                            <input type="radio" name="field" id="disableCamaraControls" value="disableCamaraControls"> 
+                                            Disable camera controls
+                                        </fieldset>
+                                    </form>
+                                </p>
+                                <p id="CameraControlsUpdate">Update.</p>
+                            </div>
+                            <div id="BarycentricControlDisplay">
+                                <p>
+                                    Enter Shrinking Factor - between 0.0 (None) to 1.0 (Total Shrinking).
+                                    <form>
+                                        <input type="number" id="BarycentricShrinkingInput" step="0.01" min="0.0" max="1.0" value ="0.0">
+                                    </form>
+
+                                </p>
+                                <p id="BarycentricControlUpdate">Update.</p>
+                            </div>
+                            <div id="ZoneInformationDisplayWrapper">
+                                <div id="ZoneInformationDisplay">
+                                    <div class="ZoneInformationColumn">
+                                        <div class="ZoneInformationCellHolder">
+                                            <div class="ZoneInformationCell">
+                                                <p id="ZoneGeneralInformation">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ZoneInformationColumn ">
+                                        <div class="ZoneInformationCellHolder">
+                                            <div class="ZoneInformationCell">
+                                                <p id="ZoneGeometryInformation">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ZoneInformationColumn ">
+                                        <div class="ZoneInformationCellHolder">
+                                            <div class="ZoneInformationCell">
+                                                <p id="ZoneConnectivityInformation">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="ShowColorDisplay">
+                                <p>
+                                    Specify what field to render the color map with and what color map function to use.
+                                    <form>
+                                        <fieldset>
+                                            <legend>Field to Show</legend>
+                                            <input type="radio" name="field" id="showMinDihedralAngle" value="minDihedralAngle" checked> 
+                                            Min Dihedral Angle
+                                            <input type="radio" name="field" id="showMaxDihedralAngle" value="maxDihedralAngle"> 
+                                            Max Dihedral Angle
+                                            <input type="radio" name="field" id="showAverageMeanInverseRatio" value="averageMeanInverseRatio"> 
+                                            Average Mean Inverse Ratio
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>Colormap to Show</legend>
+                                            <input type="radio" name="color" id="showGreyscale" value="greyscale" checked> Greyscale
+                                            <input type="radio" name="color" id="showRainbow" value="rainbow"> Rainbow
+                                        </fieldset>
+                                    </form>
+                                </p>
+                                <p id="ShowColorControlUpdate">Update.</p>
+                                <p id="ShowColorControlReset">Reset.</p>
+                            </div>
+                            <div id="ZoneSeparationControlDisplay">
+                                <p>
+                                    Specify how far the zones should be separated, while 0 means no separation and a larger number means farther separation.
+                                    <form>
+                                        <input type="number" id="ZoneSeparationInput" step="0.1" min="0.0" value ="0.0">
+                                    </form>
+                                </p>
+                                <p id="ZoneSeparationControlUpdate">Update.</p>
+                            </div>
+                            <div id="LoadSourceControlDisplay">
+                                <p>
+                                    Specify which source to load from.
+                                    <form>
+                                        <fieldset>
+                                            <legend>Source to Load</legend>
+                                            <input type="radio" name="field" id="loadVTK" value="loadVTK"> 
+                                            Load VTK
+                                            <input type="radio" name="field" id="loadJSON" value="loadJSON" checked> 
+                                            Load JSON
+                                        </fieldset>
+                                    </form>
+                                </p>
+                                <p id="LoadSourceControlUpdate">Update.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/index.js "></script>
+
+</body>
+
+</html>

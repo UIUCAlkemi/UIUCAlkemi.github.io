@@ -1,0 +1,209 @@
+#Canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#canvasHolder {
+    border-width: thin;
+    overflow: hidden;
+    position: relative;
+    border-width: thin;
+    border-color: #bdc3c7;
+    border-style: solid;
+    margin-top: 10px;
+}
+
+#body {
+    background-color: #ecf0f1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#webglHolder {
+    min-width: 100%;
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    border-width: thin;
+    border-left-color: #bdc3c7;
+    margin: 0;
+    padding: 0;
+}
+
+#ViewSpaceWrapper {
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0.0%;
+}
+
+#ControlSpaceWrapper {
+    min-height: 100%;
+    min-width: 100%;
+    display: flex;
+    align-items: stretch;
+    border-top-width: thin;
+    border-top-color: #bdc3c7;
+    border-top-style: solid;
+}
+
+#Controls {
+    flex-grow: 2;
+    flex-shrink: 2;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    border-right-width: thin;
+    border-right-color: #bdc3c7;
+    border-right-style: solid;
+}
+
+.ControlButton {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-items: center;
+}
+
+#ControlButton1 {}
+
+#ControlButton2 {}
+
+#ControlButton3 {}
+
+#ControlButton4 {}
+
+#ControlButton5 {}
+
+#InformationSpaceWapper {
+    min-width: 80%;
+    flex-grow: 8;
+    flex-shrink: 8;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+#InformationSpaceWapper2 {
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    text-align: center;
+}
+
+#InformationSpace {
+    flex-grow: 1;
+    min-width: 100%;
+    min-height: 100%;
+    height: 100%;
+    display: table;
+}
+
+#BarycentricShrinkFactorDisplay {
+    display: none;
+    flex-direction: column;
+    text-align: center;
+    align-items: stretch;
+    align-content: center;
+    justify-content: center;
+}
+
+#CameraControlsDisplay {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#ShowColorDisplay {
+    display: none;
+}
+
+#ZoneSeparationControlDisplay {
+    display: none;
+}
+
+#LoadSourceControlDisplay {
+    display: none;
+}
+
+#BarycentricShrinkFactorToggle {
+    border-width: thin;
+    border-color: #bdc3c7;
+    border-style: solid;
+    flex-grow: 1;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#BarycentricShrinkFactorHeader {
+    flex-grow: 1;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#ZoneInformationDisplayWrapper {
+    display: none;
+    min-height: 100%;
+    min-width: 100%;
+    height: 100%;
+    width: 100%;
+}
+
+#ZoneInformationDisplay {
+    min-height: 100%;
+    min-width: 100%;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    text-align: center;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.ZoneInformationColumn {
+    display: inline-flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    text-align: center;
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 33.33333%;
+    max-height: 100%;
+}
+
+.ZoneInformationCellHolder {
+    display: inline-flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: stretch;
+    justify-content: center;
+    max-height: 100%;
+}
+
+.ZoneInformationCell {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#BarycentricControlDisplay {
+    display: none;
+    text-align: center;
+    vertical-align: middle;
+}

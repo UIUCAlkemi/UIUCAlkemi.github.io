@@ -1,0 +1,59 @@
+Some details on the mesh format:  
+(please also refer to the slides in the powerpoint deck that I sent you a while back for images of the various mesh elements)
+
+The dataset is a json formatted file composed of a map of several named javascript arrays.
+
+"zones" : polyhedral cells (3D)
+"faces" : polygonal cells (2D) bounding a zone
+"edges": the (1D) edges of the mesh
+"nodes" the (0D) vertices of the mesh
+"sides": tetrahedra (3D) -- defined by an edge in the mesh, one of its incident faces, and its incident zone.
+     The nodes, edges and faces of the sides are called by the "nodelets", "edgelets" and "sidelets"
+     and we have arrays for each of these as well
+"corners": trapezohedra (http://en.wikipedia.org/wiki/Trapezohedron ) defined by a singe zone of the mesh and one of its nodes
+
+There are also some "views" defining axis-aligned bounding boxes in mesh space.
+
+
+"zones" are the polyhedral elements in the mesh.  
+The polygonal "faces" of the mesh can be considered half-faces and are on the boundary of a single zone.
+Each face has an 'opposite' face that bounds an adjacent zone of the mesh,
+and the face normals always point toward the center of their incident zone.
+
+The vertices and edges of the mesh are called "nodes" and "edges" and can be incident in multiple zones (in contrast to the faces which are incident in only a single zone).
+
+In addition to the main mesh (composed of zones), the dataset also has two embedded meshes, which refine the zones into simpler polyhedral elements:
+* A mesh composed of tetrahedral "sides" -- for this, we add a vertex to face and zone centers, and decompose each zone into multiple tetrahedra (two per edge in a zone), each defined by a unique edge, and the centers of one of its incident faces and of its incident zone.
+For the tetrahedral sides, we explicitly maintain its boundary elements -- 0D 'nodelets', 1D 'edgelets' and 2D 'facelets'
+
+* A mesh composed of  trapezohedra -- which decompose each zone into a set of 'corners', each corresponding to a unique node of the zone.  (We do not explicitly maintain the boundary elements of the corners). 
+
+
+Each element in the file is a javascript object defined by several fields.  For each element, we have 
+'idx' -- a local index for the element
+'globalID' -- a unique index for domain decomposed meshes defined by more than 1 domain
+'domainID' -- the index of the domain to which this element belongs.
+'position' -- the coordinates of the element's barycenter 
+'geom' -- an array of vertex positions of the element  (this is included for quick rendering of the elements, we also maintain the incidices of the incident nodes, see below).
+'classification' -- an array of classification labels on the mesh elements.  Possibilities are 
+'send' -- the elements that belong to the current domain, but whose values must be transmitted to other domains
+'receive' -- the 'ghost' elements that belong to other domains, and whose values are transmitted to the current domain.
+'owned' -- set if the element is owned by the current domain
+'externalSurface -- degenerate elements on the boudary of the domain (see below)
+'problemBoundary' -- a subset of the externalSurface elements which belong to the boundary of the entire problem (i.e. these elements are on the boundary of the mesh defined by the union of all domains in the domain decomposed mesh).  For meshes defined by a single domain, all externalSurface elements are problemBoundary.
+'connectivity' -- the topological connectivity of each element.  A map of arrays giving the explicit topological connectivity of the mesh.
+n -- the local index ('idx') of the nodes on the boundary of the element 
+e -- the indices of the incident edges to the element
+f -- the indices of the incident faces to the element
+z -- the indices of the incident zones to the element
+s -- the indices of the incident sides
+c -- the indices of the incident corners 
+For nodes: n_n -- these are nodes that are adjacent to the given node through a common zone
+For zones: z_n -- these are the zones that are adjacent to the given zone through a common node
+For sides: s_n -- these are the sides that are adjacent along a triangular face ( a facelet)
+For sides: 'n-lets', 'e-lets' 'f-lets' -- the indices of the boundary nodelets, edgelets and facelets.
+
+--
+One more thing:  The mesh has an 'externalSurface' -- a polygonal mesh shell around the boundary zones of the mesh.  (This exists to simplify our mesh processing algorithms, as each zone has a full neighborhood of 'zones' around it, even if some of those are zero-volume degenerate elements.
+Thus, while there are only six actual zones in the current mesh, there are an additional 12 degenerate zones. 
+It is important to note that these are included 'inline' with the actual elements even though they are degenerate elements.
