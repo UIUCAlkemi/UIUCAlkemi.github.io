@@ -1,14 +1,16 @@
-html,canvas,div,ul{
-  margin: 0;
-  padding: 0;
+* {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font-size: 100%;
+        vertical-align: baseline;
+        background: transparent;
 }
 
 #Canvas {
     width: 100%;
     height: 100%;
-    margin: 0;
-    padding: 0;
-    margin: 0;
 }
 
 #canvasHolder {
@@ -17,20 +19,17 @@ html,canvas,div,ul{
     position: relative;
     width: 100%;
     height: 100%;
-    margin:0;
-    padding: 0;
 
 
 }
 
 #body {
-    /*background-color: #ffffff;*/
+    background-color: #000000;
     overflow: hidden;
     position: relative;
     height: 100%;
     width: 100%;
-    padding:0;
-    margin:top;
+
 }
 
 #webglHolder {
@@ -40,16 +39,12 @@ html,canvas,div,ul{
     left:0;
     display: inline-block;
     position: relative;
-    margin: 0;
-    padding: 0;
 
 }
 
 #ViewSpaceWrapper {
     width: 100%;
     height: 100%;
-    margin: 0;
-    padding: 0;
     top:0;
     left: 0;
 
