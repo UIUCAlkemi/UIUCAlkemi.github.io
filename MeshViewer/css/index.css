@@ -1,49 +1,58 @@
+html,canvas,div,ul{
+  margin: 0;
+  padding: 0;
+}
+
 #Canvas {
     width: 100%;
     height: 100%;
-
+    margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 #canvasHolder {
     border-width: 0;
-    overflow: auto;
+    overflow: hidden;
     position: relative;
     width: 100%;
     height: 100%;
-    /*border-color: #bdc3c7;
-    border-style: solid; */
-    margin-top: 0px;
+    margin:0;
+    padding: 0;
+
 
 }
 
-body {
+#body {
     /*background-color: #ffffff;*/
-    overflow-y: hidden;
-    overflow-x: hidden;
+    overflow: hidden;
     position: relative;
     height: 100%;
     width: 100%;
-    margin: 0;
-    padding: 0;
+    padding:0;
+    margin:top;
 }
 
 #webglHolder {
-    /*min-width: 960px;*/
     width: 100%;
     height: 100%;
+    top:0;
+    left:0;
     display: inline-block;
     position: relative;
-    /*border-width: 0;
-    border-left-color: #bdc3c7;*/
     margin: 0;
     padding: 0;
+
 }
 
 #ViewSpaceWrapper {
-    min-width: 100%;
-    min-height: 100%;
+    width: 100%;
+    height: 100%;
     margin: 0;
-    padding: 0.0%;
+    padding: 0;
+    top:0;
+    left: 0;
+
 }
 
 #ControlSpaceWrapper {

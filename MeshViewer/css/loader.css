@@ -2,8 +2,9 @@
 
 #loadingWrapper {
     position: absolute;
-    min-width: 100%;
-    min-height: 99.9%;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
     color: white;
     background-color: white;
     overflow: hidden;
@@ -12,6 +13,7 @@
     z-index: 10;
     margin: 0;
     padding: 0;
+
 }
 
 .spinner {
@@ -20,6 +22,7 @@
     height: 30px;
     text-align: center;
     font-size: 10px;
+
 }
 
 .spinner > div {

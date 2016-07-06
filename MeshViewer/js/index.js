@@ -13,7 +13,7 @@ var gl = null; //
 var finalWidth = 0; //
 var finalHeight = 0; //
 
-//  
+//
 $(document).ready(function () {
     $('#fullpage').fullpage({
         scrollBar: true
@@ -22,7 +22,7 @@ $(document).ready(function () {
     $.fn.fullpage.setMouseWheelScrolling(false);
 });
 
-//  
+//
 $(window).load(function () {
     console.log("JQuery is now functional."); //  JQuery!
     initializeCanvas(); //  Initialize the Canvas!
@@ -37,14 +37,14 @@ $(window).resize(function () {
     //    resizeCanvas();                               //  This is really where it is needed, if you want dynamic resizing. Doesn't quite work yet.
 });
 
-//  
+//
 function initializeCanvas() {
     canvasElement = document.getElementById("Canvas"); //  Get the canvas element.
     canvasHolder = $("#canvasHolder"); //  Get the div holding the canvas.
     webglHolder = $("#webglHolder"); // Get the innermost div.
 }
 
-//  
+//
 function printDimensions() {
     // Lots of console output - very useful - sometimes.
     console.log("Canvas Element Width : " + canvasElement.width);
@@ -60,17 +60,17 @@ function printDimensions() {
     console.log("Browser Style Height : " + window.innerHeight + " .");
 }
 
-//  
+//
 function resizeCanvas() {
     // Resize the Canvas.
     var maxavailableWidth = (webglHolder.width() > window.innerWidth) ? window.innerWidth : webglHolder.width();
     var maxavailableHeight = (webglHolder.height() > window.innerHeight) ? window.innerHeight : webglHolder.height();
     var availableWidth = maxavailableWidth; //  Take up some % of the available width.
     var availableHeight = maxavailableHeight; //  Take up some % of the available height.
-    var cWidth = targetWidth; //  
+    var cWidth = targetWidth; //
     var cHeight = targetHeight; //
 
-    var scaleFactor = 1.0; //  
+    var scaleFactor = 1.0; //
 
 
 
@@ -78,16 +78,16 @@ function resizeCanvas() {
     {
         scaleFactor = availableHeight / cHeight; //  Calculate the scale, and scale down
         console.log("Scale Factor H : " + scaleFactor); //  This ensures that we are always within the height
-        cWidth = cWidth * scaleFactor; //  
-        cHeight = cHeight * scaleFactor; //  
+        cWidth = cWidth * scaleFactor; //
+        cHeight = cHeight * scaleFactor; //
     }
 
     if (cWidth > availableWidth) //  Check if it is then bound by the width
     {
         scaleFactor = availableWidth / cWidth; //  Calculate the scale, and scale down
         console.log("Scale Factor W : " + scaleFactor); //  This ensures that we are always within the width
-        cWidth = cWidth * scaleFactor; //  
-        cHeight = cHeight * scaleFactor; //  
+        cWidth = cWidth * scaleFactor; //
+        cHeight = cHeight * scaleFactor; //
     }
 
     // Now we are both within the width and the height.
