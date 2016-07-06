@@ -27,9 +27,10 @@ function initializeInformationControls() {
         $("#ZoneSeparationControlDisplay").css("display", "none");
         $("#LoadSourceControlDisplay").css("display", "none");
         enableZoneSelect();
-        $("#ZoneGeneralInformation").html("Select A Zone.");
-        $("#ZoneGeometryInformation").html("Select A Zone.");
-        $("#ZoneConnectivityInformation").html("Select A Zone.");
+        $("#ZoneGeneralInformation").html();
+        $("#ZoneGeometryInformation").html();
+        $("#ZoneConnectivityInformation").html();
+
     });
 
     $("#BarycentricShrinkFactorButton").click(function () {
@@ -45,7 +46,7 @@ function initializeInformationControls() {
         barycentricShrinkFactor = document.getElementById("BarycentricShrinkingInput").value;
         updateZoneBaryCentricShrinking();
     });
-    
+
     $("#ShowColorButton").click(function () {
         $("#CameraControlsDisplay").css("display", "none");
         $("#ZoneInformationDisplayWrapper").css("display", "none");
@@ -71,7 +72,7 @@ function initializeInformationControls() {
     $("#ShowColorControlReset").click(function () {
         showRandomColors();
     });
-    
+
     $("#ZoneSeparationButton").click(function () {
         $("#CameraControlsDisplay").css("display", "none");
         $("#ZoneInformationDisplayWrapper").css("display", "none");
@@ -79,7 +80,7 @@ function initializeInformationControls() {
         $("#ShowColorDisplay").css("display", "none");
         $("#ZoneSeparationControlDisplay").css("display", "table-cell");
         $("#LoadSourceControlDisplay").css("display", "none");
-        
+
         disableZoneSelect();
     });
     $("#ZoneSeparationControlUpdate").click(function () {
