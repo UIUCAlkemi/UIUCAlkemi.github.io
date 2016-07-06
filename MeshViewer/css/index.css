@@ -106,15 +106,15 @@
 }
 
 .UpdateResetButton{
-  margin: 0 auto;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #20B2AA;
-  width: 55px;
-  color: #1c9c95;
-  border-radius : 4px;
+  display: inline-block;
+  padding: 10px 20px;
   background-color: #fafafa;
-  padding: 5px 5px;
+  border: 2px solid #20B2AA;
+  border-radius : 4px;
+  color: #1c9c95;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .UpdateResetButton:active{
   color: white;

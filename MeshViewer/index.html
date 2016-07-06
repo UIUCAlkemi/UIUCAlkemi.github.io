@@ -35,6 +35,7 @@
 </head>
 
 <body id="body">
+  <main>
   <div id="loadingWrapper">
         <div class="spinner">
             <div class="rect1"></div>
@@ -55,6 +56,7 @@
 
 
   <a href="#0" class="cd-btn">Control Panel</a>
+</main>
     <div class="cd-panel from-left">
       <header class="cd-panel-header">
         <h1>Mesh Viewer Controls</h1>
@@ -82,6 +84,22 @@
               </div>
             </div>
 
+            <div class="container">
+              <div class="left-cell">
+                <div class="label">Color Scale</div>
+              </div>
+
+              <div class="right-cell">
+                <div class="onoffswitch-color">
+                  <input type="checkbox" name="onoffswitch-color" class="onoffswitch-color-checkbox" id="myonoffswitch-color" checked>
+                  <label class="onoffswitch-color-label" for="myonoffswitch-color">
+                    <span class="onoffswitch-color-inner"></span>
+                    <span class="onoffswitch-color-switch"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
             <form>
               <fieldset>
                 <legend class="label">Select Shrink Factor</legend>
@@ -101,11 +119,17 @@
             </form>
 
 
+              <div style="display:inline-block; margin-top:5px;">
+                <div class="UpdateResetButton">Update</div>
+              </div>
+              <div style="display:inline-block; margin-left:10px;">
+                <div class="UpdateResetButton">Reset</div>
+              </div>
 
 
-        			</div>
         		</div>
         	</div>
+        </div>
 
 
         <script src="js/panel/jquery-2.1.1.js"></script>
