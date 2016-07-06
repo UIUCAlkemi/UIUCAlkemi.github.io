@@ -1,5 +1,5 @@
-var targetWidth = 1920; //
-var targetHeight = 1080; //
+var targetWidth = window.innerWidth; //
+var targetHeight = window.innerHeight; //
 var targetAspectRatio = targetWidth / targetHeight; //
 
 var canvasElement = null; //
@@ -65,8 +65,8 @@ function resizeCanvas() {
     // Resize the Canvas.
     var maxavailableWidth = (webglHolder.width() > window.innerWidth) ? window.innerWidth : webglHolder.width();
     var maxavailableHeight = (webglHolder.height() > window.innerHeight) ? window.innerHeight : webglHolder.height();
-    var availableWidth = maxavailableWidth * 0.95; //  Take up some % of the available width.
-    var availableHeight = maxavailableHeight * 0.95; //  Take up some % of the available height.
+    var availableWidth = maxavailableWidth; //  Take up some % of the available width.
+    var availableHeight = maxavailableHeight; //  Take up some % of the available height.
     var cWidth = targetWidth; //  
     var cHeight = targetHeight; //
 
