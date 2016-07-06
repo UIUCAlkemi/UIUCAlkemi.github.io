@@ -70,52 +70,39 @@
 
               <!--PANEL CONTENT-->
 
-              <div class="container">
-                  <div class="left-cell">
-                      <div class="label">Camera Control</div>
-                  </div>
-
-                  <div class="right-cell">
-                      <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-                        <label class="onoffswitch-label" for="myonoffswitch">
-                          <span class="onoffswitch-inner"></span>
-                          <span class="onoffswitch-switch"></span>
-                        </label>
-                      </div>
-                  </div>
+            <div class="container">
+              <div class="left-cell">
+                <div class="label">Camera Control</div>
               </div>
 
-          <!--   <div class="container">
-                <div class = "left-cell" style="width:85%">
-                  <input type="range" id="BarycentricShrinkingInput" min="0.0" max="1.0" value="1.0" step="0.01"
-                      oninput="BarycentricShrinkingOutput.value = (BarycentricShrinkingInput.valueAsNumber).toFixed(2)">
+              <div class="right-cell">
+                <div class="onoffswitch">
+                  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                  <label class="onoffswitch-label" for="myonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                  </label>
                 </div>
+              </div>
+            </div>
 
-                <div class="left-cell">
-                  <div class="container2">
+            <form>
+              <fieldset>
+                <legend class="label">Select Shrink Factor</legend>
+                <div class="container3">
+                  <div class = "left-cell" style="width:85%">
+                    <input type="range" id="BarycentricShrinkingInput" min="0.0" max="1.0" value="1.0" step="0.01"
+                      oninput="BarycentricShrinkingOutput.value = (BarycentricShrinkingInput.valueAsNumber).toFixed(2)">
+                  </div>
+
+                  <div class="left-cell">
+                    <div class="container2">
                       <output id="BarycentricShrinkingOutput" class="label" >1.00</output>
+                    </div>
                   </div>
                 </div>
-            </div> -->
-            <form>
-            <fieldset>
-              <legend class="label">Select Shrink Factor</legend>
-              <div class="container3">
-                    <div class = "left-cell" style="width:85%">
-                      <input type="range" id="BarycentricShrinkingInput" min="0.0" max="1.0" value="1.0" step="0.01"
-                          oninput="BarycentricShrinkingOutput.value = (BarycentricShrinkingInput.valueAsNumber).toFixed(2)">
-                    </div>
-
-                    <div class="left-cell">
-                      <div class="container2">
-                          <output id="BarycentricShrinkingOutput" class="label" >1.00</output>
-                      </div>
-                    </div>
-                </div>
-
-            </fieldset>
-          </form>
+              </fieldset>
+            </form>
 
 
 
