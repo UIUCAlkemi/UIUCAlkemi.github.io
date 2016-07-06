@@ -1,30 +1,41 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-<head>
+<html lang="en" class="no-js"> <!--TD-->
 
+<head>
+    <title>Mesh Viewer</title>
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="css/loader.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css">
     <link href='http://fonts.googleapis.com/css?family=Lekton:400,400italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:200,400,300' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Muli:300,300italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif' rel='stylesheet' type='text/css'>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script type="text/javascript" src="js/three.min.js"></script>
     <script type="text/javascript" src="js/TrackballControls.js"></script>
     <script type="text/javascript" src="js/program.js"></script>
     <script type="text/javascript" src="js/controls.js"></script>
-    <script type="text/javascript" src="js/jquery.fullPage.min.js"></script>
     <script type="text/javascript" src="js/VTKLoader.js"></script>
+    <!--<script type="text/javascript" src="js/slider.js"></script> -->
+
+    <!--TD>-->
+    <meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="css/styling/reset_panel.css">
+  	<link rel="stylesheet" href="css/styling/style_panel.css">
+    <link rel="stylesheet" href = "css/styling/style_buttons.css">
+    <link rel="stylesheet" href = "css/styling/style_slider.css">
+    <!--TD-->
 
 
 </head>
 
 
 <body id="body">
-    <div id="loadingWrapper">
+  <div id="loadingWrapper">
         <div class="spinner">
             <div class="rect1"></div>
             <div class="rect2"></div>
@@ -33,141 +44,225 @@
             <div class="rect5"></div>
         </div>
     </div>
-    <div id="fullpage">
-        <div class="section" id="ViewSpace">
 
-            <div id="ViewSpaceWrapper">
-                <div id="webglHolder">
 
-                    <div id="canvasHolder">
-
-                        <canvas id="Canvas" width="1920" height="1080">
-                        </canvas>
-
-                    </div>
-                </div>
-
-            </div>
+  <div id="ViewSpaceWrapper">
+      <div id="webglHolder">
+        <div id="canvasHolder">
+          <canvas id="Canvas" width= 100% height= 100%> </canvas>
         </div>
-        <div class="section" id="ControlSpace">
-            <div id="ControlSpaceWrapper">
-                <div id="Controls">
-                    <div class="ControlButton" id="CameraMovementButton">Camera Movement.</div>
-                    <div class="ControlButton" id="BarycentricShrinkFactorButton">Barycentric Shrinking Factor.</div>
-                    <div class="ControlButton" id="SelectZoneButton">Select Zone.</div>
-                    <div class="ControlButton" id="ShowColorButton">Show Colors.</div>
-                    <div class="ControlButton" id="ZoneSeparationButton">Separate Zones.</div>
-                    <div class="ControlButton" id="LoadSourceButton">Load Source.</div>
-                </div>
-                <div id="InformationSpaceWapper">
-                    <div id="InformationSpaceWapper2">
-                        <div id="InformationSpace">
-                            <div id="CameraControlsDisplay">
-                                <p>
-                                    Enable or disable camera controls.
-                                    <form>
-                                        <fieldset>
-                                            <legend>Enable or Not</legend>
-                                            <input type="radio" name="field" id="enableCamaraControls" value="enableCamaraControls" checked> 
-                                            Enable camera controls
-                                            <input type="radio" name="field" id="disableCamaraControls" value="disableCamaraControls"> 
-                                            Disable camera controls
-                                        </fieldset>
-                                    </form>
-                                </p>
-                                <p id="CameraControlsUpdate">Update.</p>
-                            </div>
-                            <div id="BarycentricControlDisplay">
-                                <p>
-                                    Enter Shrinking Factor - between 0.0 (None) to 1.0 (Total Shrinking).
-                                    <form>
-                                        <input type="number" id="BarycentricShrinkingInput" step="0.01" min="0.0" max="1.0" value ="0.0">
-                                    </form>
-
-                                </p>
-                                <p id="BarycentricControlUpdate">Update.</p>
-                            </div>
-                            <div id="ZoneInformationDisplayWrapper">
-                                <div id="ZoneInformationDisplay">
-                                    <div class="ZoneInformationColumn">
-                                        <div class="ZoneInformationCellHolder">
-                                            <div class="ZoneInformationCell">
-                                                <p id="ZoneGeneralInformation">
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="ZoneInformationColumn ">
-                                        <div class="ZoneInformationCellHolder">
-                                            <div class="ZoneInformationCell">
-                                                <p id="ZoneGeometryInformation">
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="ZoneInformationColumn ">
-                                        <div class="ZoneInformationCellHolder">
-                                            <div class="ZoneInformationCell">
-                                                <p id="ZoneConnectivityInformation">
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="ShowColorDisplay">
-                                <p>
-                                    Specify what field to render the color map with and what color map function to use.
-                                    <form>
-                                        <fieldset>
-                                            <legend>Field to Show</legend>
-                                            <input type="radio" name="field" id="showMinDihedralAngle" value="minDihedralAngle" checked> 
-                                            Min Dihedral Angle
-                                            <input type="radio" name="field" id="showMaxDihedralAngle" value="maxDihedralAngle"> 
-                                            Max Dihedral Angle
-                                            <input type="radio" name="field" id="showAverageMeanInverseRatio" value="averageMeanInverseRatio"> 
-                                            Average Mean Inverse Ratio
-                                        </fieldset>
-                                        <fieldset>
-                                            <legend>Colormap to Show</legend>
-                                            <input type="radio" name="color" id="showGreyscale" value="greyscale" checked> Greyscale
-                                            <input type="radio" name="color" id="showRainbow" value="rainbow"> Rainbow
-                                        </fieldset>
-                                    </form>
-                                </p>
-                                <p id="ShowColorControlUpdate">Update.</p>
-                                <p id="ShowColorControlReset">Reset.</p>
-                            </div>
-                            <div id="ZoneSeparationControlDisplay">
-                                <p>
-                                    Specify how far the zones should be separated, while 0 means no separation and a larger number means farther separation.
-                                    <form>
-                                        <input type="number" id="ZoneSeparationInput" step="0.1" min="0.0" value ="0.0">
-                                    </form>
-                                </p>
-                                <p id="ZoneSeparationControlUpdate">Update.</p>
-                            </div>
-                            <div id="LoadSourceControlDisplay">
-                                <p>
-                                    Specify which source to load from.
-                                    <form>
-                                        <fieldset>
-                                            <legend>Source to Load</legend>
-                                            <input type="radio" name="field" id="loadVTK" value="loadVTK"> 
-                                            Load VTK
-                                            <input type="radio" name="field" id="loadJSON" value="loadJSON" checked> 
-                                            Load JSON
-                                        </fieldset>
-                                    </form>
-                                </p>
-                                <p id="LoadSourceControlUpdate">Update.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+
+
+
+    <a href="#0" class="cd-btn">Control Panel</a>
+
+
+        	<div class="cd-panel from-left">
+        		<header class="cd-panel-header">
+        			<h1>Mesh Viewer Controls</h1>
+        			<a href="#0" class="cd-panel-close">Close</a>
+        		</header>
+
+        		<div class="cd-panel-container">
+        			<div class="cd-panel-content">
+
+              <!--PANEL CONTENT-->
+
+              <div class="container">
+                  <div class="left-cell">
+                      <div class="label">Camera Control</div>
+                  </div>
+
+                  <div class="right-cell">
+                      <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                        <label class="onoffswitch-label" for="myonoffswitch">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                        </label>
+                      </div>
+                  </div>
+              </div>
+
+          <!--   <div class="container">
+                <div class = "left-cell" style="width:85%">
+                  <input type="range" id="BarycentricShrinkingInput" min="0.0" max="1.0" value="1.0" step="0.01"
+                      oninput="BarycentricShrinkingOutput.value = (BarycentricShrinkingInput.valueAsNumber).toFixed(2)">
+                </div>
+
+                <div class="left-cell">
+                  <div class="container2">
+                      <output id="BarycentricShrinkingOutput" class="label" >1.00</output>
+                  </div>
+                </div>
+            </div> -->
+            <form>
+            <fieldset>
+              <legend class="label">Select Shrink Factor</legend>
+              <div class="container3">
+                    <div class = "left-cell" style="width:85%">
+                      <input type="range" id="BarycentricShrinkingInput" min="0.0" max="1.0" value="1.0" step="0.01"
+                          oninput="BarycentricShrinkingOutput.value = (BarycentricShrinkingInput.valueAsNumber).toFixed(2)">
+                    </div>
+
+                    <div class="left-cell">
+                      <div class="container2">
+                          <output id="BarycentricShrinkingOutput" class="label" >1.00</output>
+                      </div>
+                    </div>
+                </div>
+
+            </fieldset>
+          </form>
+
+
+
+
+        			</div> <!-- cd-panel-content -->
+        		</div> <!-- cd-panel-container -->
+        	</div> <!-- cd-panel -->
+
+
+        <script src="js/panel/jquery-2.1.1.js"></script>
+        <script src="js/panel/main.js"></script> <!-- Resource jQuery -->
+        <script src="js/panel/modernizr.js"></script>
+
+
+            <!--<div id="ControlSpace">-->
+            <!--  <div id="ControlSpaceWrapper">
+                  <div id="Controls">
+                      <div class="ControlButton" id="CameraMovementButton">Camera Movement</div>
+                      <div class="ControlButton" id="BarycentricShrinkFactorButton">Barycentric Shrinking Factor</div>
+                      <div class="ControlButton" id="SelectZoneButton">Select Zone for Data</div>
+                      <div class="ControlButton" id="ShowColorButton">Show Colors</div>
+                      <div class="ControlButton" id="ZoneSeparationButton">Separate Zones</div>
+                      <div class="ControlButton" id="LoadSourceButton">Load Source</div>
+                 </div>
+                  <div id="InformationSpaceWapper">
+                      <div id="InformationSpaceWapper2">
+                          <div id="InformationSpace">
+                              <div id="CameraControlsDisplay">
+                                  <p>
+                                      <form>
+                                          <fieldset>
+                                              <legend>Camera Control</legend>
+                                              <input type="radio" name="field" id="enableCamaraControls" value="enableCamaraControls" checked>
+                                              Enable
+                                              <input type="radio" name="field" id="disableCamaraControls" value="disableCamaraControls">
+                                              Disable
+                                          </fieldset>
+                                      </form>
+                                  </p>
+                                <div class="UpdateResetButton" id="CameraControlsUpdate">Update</div>
+                              </div>
+                              <div id="BarycentricControlDisplay">
+                                  <p>
+
+                                    <form>
+                                      <fieldset>
+                                        <legend>Select Shrink Factor</legend>
+                                          <input type="range" id="BarycentricShrinkingInput" min="0.0" max="1.0" value="1.0" step="0.01"
+                                            oninput="BarycentricShrinkingOutput.value = BarycentricShrinkingInput.value">
+                                          <output id="BarycentricShrinkingOutput">1.0</output>
+                                    </fieldset>
+                                    </form>
+
+                                  </p>
+                                  <div class="UpdateResetButton" id="BarycentricControlUpdate">Update</div>
+                              </div>
+
+                              <div id="ZoneInformationDisplayWrapper">
+                                  <div id="ZoneInformationDisplay">
+                                      <div class="ZoneInformationColumn">
+                                          <div class="ZoneInformationCellHolder">
+                                              <div class="ZoneInformationCell">
+                                                  <p id="ZoneGeneralInformation">
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="ZoneInformationColumn ">
+                                          <div class="ZoneInformationCellHolder">
+                                              <div class="ZoneInformationCell">
+                                                  <p id="ZoneGeometryInformation">
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="ZoneInformationColumn ">
+                                          <div class="ZoneInformationCellHolder">
+                                              <div class="ZoneInformationCell">
+                                                  <p id="ZoneConnectivityInformation">
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div id="ShowColorDisplay">
+                                  <p>
+                                      <form>
+                                          <fieldset>
+                                              <legend>Select Field to Show</legend>
+                                              <input type="radio" name="field" id="showMinDihedralAngle" value="minDihedralAngle" checked>
+                                              Min Dihedral Angle
+                                              <input type="radio" name="field" id="showMaxDihedralAngle" value="maxDihedralAngle">
+                                              Max Dihedral Angle
+                                              <input type="radio" name="field" id="showAverageMeanInverseRatio" value="averageMeanInverseRatio">
+                                              Average Mean Inverse Ratio
+                                          </fieldset>
+                                          <fieldset>
+
+                                              <legend>Select Colormap Function</legend>
+                                              <input type="radio" name="color" id="showGreyscale" value="greyscale" checked> Greyscale
+                                              <input type="radio" name="color" id="showRainbow" value="rainbow"> Rainbow
+
+                                          </fieldset>
+                                      </form>
+                                  </p>
+
+                                  <div>
+                                    <div style = "display: inline-block;">
+                                      <div class="UpdateResetButton" id="ShowColorControlUpdate">Update</div>
+                                    </div>
+                                    <div style = "display: inline-block;">
+                                      <div class="UpdateResetButton" id="ShowColorControlReset">Reset</div>
+                                    </div>
+                                 </div>
+
+                              </div>
+                              <div id="ZoneSeparationControlDisplay">
+                                  <p>
+                                      <p>Specify how far the zones should be separated.</p>
+                                      <p>The larger the number, the greater the separation.</p>
+                                      <form>
+                                          <input type="number" id="ZoneSeparationInput" step="0.1" min="0.0" value ="0.0">
+                                      </form>
+                                  </p>
+                                  <div class="UpdateResetButton" id="ZoneSeparationControlUpdate">Update</div>
+                              </div>
+                              <div id="LoadSourceControlDisplay">
+                                  <p>
+                                      <form>
+                                          <fieldset>
+                                              <legend>Specify Source</legend>
+                                              <input type="radio" name="field" id="loadVTK" value="loadVTK">
+                                              Load VTK
+                                              <input type="radio" name="field" id="loadJSON" value="loadJSON" checked>
+                                              Load JSON
+                                          </fieldset>
+                                      </form>
+                                  </p>
+                                  <div class="UpdateResetButton" id="LoadSourceControlUpdate">Update</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+            </div> -->
+
+
     <script src="js/index.js "></script>
 
 </body>
