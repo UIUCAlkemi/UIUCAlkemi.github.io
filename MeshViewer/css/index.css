@@ -298,6 +298,18 @@
   vertical-align: middle;
   float: right;
 }
+.ZoneInformationContatiner{
+  display: flex;
+  flex-direction: column;
+  background: rgba(0,0,0,.5);
+  color: white;
+  height:50%;
+  width: 100%;
+  margin: 5px 0px 5px 0px;
+  border: 1px solid #c6cace;
+  overflow-y: scroll;
+  word-wrap: break-word;
+}
 
 #BarycentricControlDisplay {
     display: none;
