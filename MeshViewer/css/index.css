@@ -248,15 +248,14 @@
 
 .container2{
   border: none;
-  padding: 5px;
+  padding: 0;
   display: table;
   width: 90%;
   margin-left: 5px;
 }
 .container3{
   border: none;
-  padding: 5px;
-  padding-top: 0px;
+  padding: 0;
   display: table;
   width: 100%;
   height:100%;
