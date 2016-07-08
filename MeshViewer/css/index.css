@@ -8,20 +8,14 @@
         background: transparent;
 }
 
-#Canvas {
-    width: 100%;
-    height: 100%;
-}
 
-#canvasHolder {
+#canvasWrapper {
     border-width: 0;
     overflow: hidden;
     position: relative;
     width: 100%;
     height: 100%;
     margin-top: 0px;
-
-
 }
 
 #body {
@@ -33,23 +27,8 @@
 
 }
 
-#webglHolder {
-    width: 100%;
-    height: 100%;
-    top:0;
-    left:0;
-    display: inline-block;
-    position: relative;
 
-}
 
-#ViewSpaceWrapper {
-    width: 100%;
-    height: 100%;
-    top:0;
-    left: 0;
-
-}
 
 #ControlSpaceWrapper {
     top: 0;

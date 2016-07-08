@@ -69,17 +69,18 @@ function serverJSONResponse(data) {
     
     parseData(data); // Parse the Data from the provided JSON
 
-    initializeCameras(); // Set the Camera
+    initializeCameras(); // Initialize the Camera
 
-    initializeLighting(); // Set the Lighting 
+    initializeLighting(); // Initialize the Lighting 
 
-    initializeRenderer();
+    initializeRenderer(); //  Initialize the Renderer
 
-    initializeCameraControls();
+    initializeCameraControls(); //  Initialize the Camera Controls
 
-    initializeMeshes();
+    initializeMeshes(); //  Initialize the Meshes/
 
     remove_overlay();
+
     draw();
 }
 
@@ -112,25 +113,27 @@ function initializeLighting() {
 
 function initializeRenderer() {
     // Create and set Renderer.
-    myCanvas = $("Canvas");
+    myCanvas = $("canvas");
     renderer = new THREE.WebGLRenderer({
         antialias: true, // Set antialiasing to be true
         canvas: myCanvas.get(0)
     });
-    renderer.setSize(screen_width, screen_height);
+
     renderer.autoClear = false;
 
     //  The Callbacks on the renderer - for mouse down, mouse move, move up
     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
     renderer.domElement.addEventListener('mousedown', onDocumentMouseDown, false);
     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
+
+    resizeRenderer(screen_width, screen_height);
 }
 
 //  On Mouse Move Callback
 function onDocumentMouseMove(event) {
     event.preventDefault();
-    mouse.x = (cursorPositionInCanvas(renderer.domElement, event)[0]) / $("#Canvas").width() * 2 - 1;
-    mouse.y = -(cursorPositionInCanvas(renderer.domElement, event)[1]) / $("#Canvas").height() * 2 + 1;
+    mouse.x = (cursorPositionInCanvas(renderer.domElement, event)[0]) / $("#canvas").width() * 2 - 1;
+    mouse.y = -(cursorPositionInCanvas(renderer.domElement, event)[1]) / $("#canvas").height() * 2 + 1;
 }
 
 function cursorPositionInCanvas(canvas, event) {
@@ -147,8 +150,8 @@ function cursorPositionInCanvas(canvas, event) {
 function onDocumentMouseDown(event) {
     event.preventDefault();
 
-    mouse.x = ((cursorPositionInCanvas(renderer.domElement, event)[0]) / $("#canvasHolder").width()) * 2 - 1;
-    mouse.y = (-(cursorPositionInCanvas(renderer.domElement, event)[1]) / $("#canvasHolder").height()) * 2 + 1;
+    mouse.x = ((cursorPositionInCanvas(renderer.domElement, event)[0]) / $("#canvasWrapper").width()) * 2 - 1;
+    mouse.y = (-(cursorPositionInCanvas(renderer.domElement, event)[1]) / $("#canvasWrapper").height()) * 2 + 1;
 
     if (zoneSelect == true) {
         var vector = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera);
@@ -177,7 +180,6 @@ function draw() {
 }
 
 function render() {
-    renderer.setViewport(0, 0, screen_width, screen_height);
     renderer.clear();
 
     renderer.render(scene, camera);
@@ -185,6 +187,16 @@ function render() {
 
 function update() {
     controls.update(); // Update the Controls
+}
+
+function resizeRenderer(newWidth, newHeight)
+{
+    if(renderer != null)
+    {
+        camera.aspect = newWidth / newHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(newWidth, newHeight);
+    }
 }
 
 function enableControls() {
