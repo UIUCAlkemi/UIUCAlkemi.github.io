@@ -250,8 +250,9 @@
   border: none;
   padding: 0;
   display: table;
+  vertical-align: middle;
   width: 90%;
-  margin: 0px 0px 0px 5px;
+  margin: 0px 0px 0px 8px;
 }
 .container3{
   border: none;
@@ -259,7 +260,7 @@
   display: table;
   width: 100%;
   height:100%;
-  margin: 0;
+  margin: 5px;
 }
 .label{
   font-family: "Droid Sans", sans-serif;
@@ -270,6 +271,7 @@
 .left-cell {
   display: table-cell;
   vertical-align: middle;
+
 }
 .right-cell {
   display: table-cell;

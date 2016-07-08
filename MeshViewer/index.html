@@ -35,7 +35,6 @@
 </head>
 
 <body id="body">
-  <main>
   <div id="loadingWrapper">
         <div class="spinner">
             <div class="rect1"></div>
@@ -46,13 +45,13 @@
         </div>
   </div>
 
-  <div id="canvasWrapper">
+  <div id="canvasWrapper" style="font-size:0;">
     <canvas id="canvas"> </canvas>
   </div>
 
 
   <a href="#0" class="cd-btn">Control Panel</a>
-</main>
+
     <div class="cd-panel from-left">
       <header class="cd-panel-header">
         <h1>Mesh Viewer Controls</h1>
@@ -101,13 +100,12 @@
             <!--Barycentric Shrink Factor-->
 
             <div class = "container">
-                <div class="label"> Adjust Shrink Factor</div>
-                <div class="container3">
+                <div class="label" style="margin-bottom:5px;"> Adjust Shrink Factor</div>
+                <div class="container3" style="font-size:0;">
                   <div class = "left-cell" style="width:85%">
                     <input type="range" id="BarycentricShrinkingInput" min="0.00" max="1.00" value="1.00" step="0.01"
                       oninput="BarycentricShrinkingOutput.value = (BarycentricShrinkingInput.valueAsNumber).toFixed(2)">
                   </div>
-
 
                   <div class="left-cell">
                     <div class="container2">
@@ -119,21 +117,21 @@
 
             <!--Separate Zones--> <!--need to fix for zones-->
 
-              <div class = "container">
-                  <div class="label"> Adjust Zone Separation </div>
-                  <div class="container3">
-                    <div class = "left-cell" style="width:85%">
-                      <input type="range" id="BarycentricShrinkingInput" min="0.00" max="10.00" value="0.00" step="0.01"
-                        oninput="BarycentricShrinkingOutput.value = (BarycentricShrinkingInput.valueAsNumber).toFixed(2)">
-                    </div>
+            <div class = "container">
+              <div class="label" style="margin-bottom:5px;"> Adjust Zone Separation</div>
+              <div class="container3" style="font-size:0;">
+                <div class = "left-cell" style="width:85%;" >
+                  <input type="range" id="ZoneSeparationInput" min="0.0" max="10.0" value="0.0" step="0.1"
+                    oninput="ZoneSeparationOutput.value = (ZoneSeparationInput.valueAsNumber).toFixed(1)">
+                </div>
 
-                    <div class="left-cell">
-                      <div class="container2">
-                        <output id="BarycentricShrinkingOutput" class="label" >0.00</output>
-                      </div>
-                    </div>
+                <div class="left-cell">
+                  <div class="container2">
+                    <output id="ZoneSeparationInput" class="label">0.0</output>
                   </div>
+                </div>
               </div>
+            </div>
 
             <!--Update All & Total Reset-->
             <div style="display:inline-block; margin-top:5px;">
