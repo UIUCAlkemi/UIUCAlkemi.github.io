@@ -20,7 +20,7 @@
     <script type="text/javascript" src="js/program.js"></script>
     <script type="text/javascript" src="js/controls.js"></script>
     <script type="text/javascript" src="js/VTKLoader.js"></script>
-    <!--<script type="text/javascript" src="js/slider.js"></script> -->
+
 
     <!--TD>-->
     <meta charset="UTF-8">
@@ -70,17 +70,17 @@
               </div>
 
               <div class="right-cell">
-                <div class="onoffswitch">
-                  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-                  <label class="onoffswitch-label" for="myonoffswitch">
-                    <span class="onoffswitch-inner"></span>
-                    <span class="onoffswitch-switch"></span>
+                <div class="onoffswitch-camera">
+                  <input type="checkbox" name="onoffswitch-camera" class="onoffswitch-camera-checkbox" id="myonoffswitch-camera" checked>
+                  <label class="onoffswitch-camera-label" for="myonoffswitch-camera">
+                    <span class="onoffswitch-camera-inner"></span>
+                    <span class="onoffswitch-camera-switch"></span>
                   </label>
                 </div>
               </div>
             </div>
 
-            <!--Colorscale/'Show Colors'-->
+            <!--Colorscale/'Show Colors'--> <!--need to do min/avg/max dihedral-->
             <div class="container">
               <div class="left-cell">
                 <div class="label">Color Scale</div>
@@ -97,10 +97,29 @@
               </div>
             </div>
 
+            <div class="container">
+              <div class="label" style="margin-bottom:5px;">Field Type</div>
+
+              <input type="radio" name="field" id="showMinDihedralAngle" value="minDihedralAngle">
+                <div class="check">
+                  <label for="showMinDihedralAngle">MIN DA</label>
+                </div>
+
+              <input type="radio" name="field" id="showMaxDihedralAngle" value="maxDihedralAngle">
+                <div class="check">
+                  <label for="showMaxDihedralAngle">MAX DA</label>
+                </div>
+
+              <input type="radio" name="field" id="showAverageMeanInverseRatio" value="averageMeanInverseRatio">
+                <div class="check">
+                  <label for="showAverageMeanInverseRatio">AVGERAGE IMR</label>
+                </div>
+            </div>
+
             <!--Barycentric Shrink Factor-->
 
             <div class = "container">
-                <div class="label" style="margin-bottom:5px;"> Adjust Shrink Factor</div>
+                <div class="label" style="margin-bottom:5px;"> Shrink Factor</div>
                 <div class="container3" style="font-size:0;">
                   <div class = "left-cell" style="width:85%">
                     <input type="range" id="BarycentricShrinkingInput" min="0.00" max="1.00" value="1.00" step="0.01"
@@ -115,10 +134,10 @@
                 </div>
             </div>
 
-            <!--Separate Zones--> <!--need to fix for zones-->
+            <!--Separate Zones-->
 
             <div class = "container">
-              <div class="label" style="margin-bottom:5px;"> Adjust Zone Separation</div>
+              <div class="label" style="margin-bottom:5px;"> Zone Separation</div>
               <div class="container3" style="font-size:0;">
                 <div class = "left-cell" style="width:85%;" >
                   <input type="range" id="ZoneSeparationInput" min="0.0" max="10.0" value="0.0" step="0.1"
@@ -135,12 +154,7 @@
 
             <!--Update All & Total Reset-->
             <div class="container" style="padding:0; font-size:0; margin-top:0; border:none;">
-            <div style="display:inline-block;">
-              <div class="UpdateResetButton">Update</div>
-            </div>
-            <div style="display:inline-block;">
               <div class="UpdateResetButton">Reset</div>
-            </div>
           </div>
 
             <!--Zone Information/'Select Zone'-->
@@ -174,20 +188,7 @@
                   <div id="InformationSpaceWapper">
                       <div id="InformationSpaceWapper2">
                           <div id="InformationSpace">
-                              <div id="CameraControlsDisplay">
-                                  <p>
-                                      <form>
-                                          <fieldset>
-                                              <legend>Camera Control</legend>
-                                              <input type="radio" name="field" id="enableCamaraControls" value="enableCamaraControls" checked>
-                                              Enable
-                                              <input type="radio" name="field" id="disableCamaraControls" value="disableCamaraControls">
-                                              Disable
-                                          </fieldset>
-                                      </form>
-                                  </p>
-                                <div class="UpdateResetButton" id="CameraControlsUpdate">Update</div>
-                              </div>
+
                               <div id="BarycentricControlDisplay">
                                   <p>
 

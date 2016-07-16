@@ -335,6 +335,7 @@ html, body {
   width: 90%;
   height: 100%;
   top: 0;
+  /*display: inline-block;*/
   background: #dbe2e9;
   z-index: 1;
   -webkit-transition-property: -webkit-transform;
@@ -392,6 +393,7 @@ html, body {
 
 .cd-panel-content {
   position: absolute;
+  display: inline-block; /*added, might need to remove for panel scrolling?*/
   top: 0;
   left: 0;
   width: 100%;
@@ -425,10 +427,4 @@ html, body {
     font-size: 1rem;
     line-height: 1.6;
   }
-}
-
-fieldset{
-  border: 1px solid #c6cace;
-  margin-top: 5px;
-  padding:0;
 }

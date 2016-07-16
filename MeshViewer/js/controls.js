@@ -2,24 +2,15 @@
 
 function initializeInformationControls() {
 
-    $("#CameraMovementButton").click(function () {
-        $("#CameraControlsDisplay").css("display", "table-cell");
-        $("#ZoneInformationDisplayWrapper").css("display", "none");
-        $("#BarycentricControlDisplay").css("display", "none");
-        $("#ShowColorDisplay").css("display", "none");
-        $("#ZoneSeparationControlDisplay").css("display", "none");
-        $("#LoadSourceControlDisplay").css("display", "none");
-        disableZoneSelect();
-    });
-    $("#CameraControlsUpdate").click(function () {
-        if (document.getElementById("enableCamaraControls").checked) {
-            enableControls();
-        } else if (document.getElementById("disableCamaraControls").checked) {
-            disableControls();
+    $("#myonoffswitch-camera").click(function(){
+        if (this.checked) {
+          enableControls();
+        } else {
+          disableControls();
         }
     });
 
-    $("#SelectZoneButton").click(function () {
+   $("#SelectZoneButton").click(function () {
         $("#CameraControlsDisplay").css("display", "none");
         $("#ZoneInformationDisplayWrapper").css("display", "table-cell");
         $("#BarycentricControlDisplay").css("display", "none");
@@ -42,12 +33,13 @@ function initializeInformationControls() {
         $("#LoadSourceControlDisplay").css("display", "none");
         disableZoneSelect();
     });
+
     $("#BarycentricControlUpdate").click(function () {
         barycentricShrinkFactor = document.getElementById("BarycentricShrinkingInput").value;
         updateZoneBaryCentricShrinking();
     });
 
-    $("#ShowColorButton").click(function () {
+  /*  $("#ShowColorButton").click(function () {
         $("#CameraControlsDisplay").css("display", "none");
         $("#ZoneInformationDisplayWrapper").css("display", "none");
         $("#BarycentricControlDisplay").css("display", "none");
@@ -56,6 +48,7 @@ function initializeInformationControls() {
         $("#LoadSourceControlDisplay").css("display", "none");
         disableZoneSelect();
     });
+
     $("#ShowColorControlUpdate").click(function () {
         var colormapFunc = greyscaleColormap;
         if (document.getElementById("showRainbow").checked) {
@@ -69,8 +62,20 @@ function initializeInformationControls() {
         }
         showColors(fieldName, colormapFunc);
     });
+
     $("#ShowColorControlReset").click(function () {
         showRandomColors();
+    }); */
+
+    $("#myonoffswitch-color").click(function(){
+        var colormapFunc = "";
+        if (this.checked) {
+          colormapFunc = rainbowColormap;
+        } else {
+          colormapFunc = greyscaleColormap;
+        }
+        var fieldName = "minDihedralAngle";
+        showColors(fieldName, colormapFunc);
     });
 
     $("#ZoneSeparationButton").click(function () {
@@ -83,6 +88,7 @@ function initializeInformationControls() {
 
         disableZoneSelect();
     });
+
     $("#ZoneSeparationControlUpdate").click(function () {
         separatingFactor = document.getElementById("ZoneSeparationInput").value;
         separateZones();
@@ -97,6 +103,7 @@ function initializeInformationControls() {
         $("#LoadSourceControlDisplay").css("display", "table-cell");
         disableZoneSelect();
     });
+
     $("#LoadSourceControlUpdate").click(function () {
         if (document.getElementById("loadVTK").checked) {
             useVTK = true;
