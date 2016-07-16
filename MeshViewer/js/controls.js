@@ -2,15 +2,15 @@
 
 function initializeInformationControls() {
 
-    $("#myonoffswitch-camera").click(function(){
+    $("#myonoffswitch-camera").click(function () {
         if (this.checked) {
-          enableControls();
+            enableControls();
         } else {
-          disableControls();
+            disableControls();
         }
     });
 
-   $("#SelectZoneButton").click(function () {
+    $("#SelectZoneButton").click(function () {
         $("#CameraControlsDisplay").css("display", "none");
         $("#ZoneInformationDisplayWrapper").css("display", "table-cell");
         $("#BarycentricControlDisplay").css("display", "none");
@@ -27,34 +27,35 @@ function initializeInformationControls() {
 
     $("#BarycentricShrinkingInput").on("input change", function () {
         barycentricShrinkFactor = this.value;
-        updateZoneBaryCentricShrinking();
+        updateZoneBaryCentricShrinkingAndZoneSeparation();
     });
 
 
-  /*  $("#ShowColorControlUpdate").click(function () {
-        var colormapFunc = greyscaleColormap;
-        if (document.getElementById("showRainbow").checked) {
-            colormapFunc = rainbowColormap;
-        }
-        var fieldName = "minDihedralAngle";
-        if (document.getElementById("showMaxDihedralAngle").checked) {
-            fieldName = "maxDihedralAngle";
-        } else if (document.getElementById("showAverageMeanInverseRatio").checked) {
-            fieldName = "averageInverseMeanRatio";
-        }
-        showColors(fieldName, colormapFunc);
-    });
+    /*  $("#ShowColorControlUpdate").click(function () {
+          var colormapFunc = greyscaleColormap;
+          if (document.getElementById("showRainbow").checked) {
+              colormapFunc = rainbowColormap;
+          }
+          var fieldName = "minDihedralAngle";
+          if (document.getElementById("showMaxDihedralAngle").checked) {
+              fieldName = "maxDihedralAngle";
+          } else if (document.getElementById("showAverageMeanInverseRatio").checked) {
+              fieldName = "averageInverseMeanRatio";
+          }
+          showColors(fieldName, colormapFunc);
+      });
 
-    $("#ShowColorControlReset").click(function () {
-        showRandomColors();
-    }); */
+      $("#ShowColorControlReset").click(function () {
+          showRandomColors();
+      }); */
 
-    $("#myonoffswitch-color").click(function(){
+
+    $("#myonoffswitch-color").click(function () {
         var colormapFunc = "";
         if (this.checked) {
-          colormapFunc = rainbowColormap;
+            colormapFunc = rainbowColormap;
         } else {
-          colormapFunc = greyscaleColormap;
+            colormapFunc = greyscaleColormap;
         }
         var fieldName = "minDihedralAngle";
         showColors(fieldName, colormapFunc);
@@ -63,7 +64,7 @@ function initializeInformationControls() {
 
     $("#ZoneSeparationInput").on("input change", function () {
         separatingFactor = this.value;
-        separateZones();
+        updateZoneBaryCentricShrinkingAndZoneSeparation();
     });
 
     $("#LoadSourceButton").click(function () {

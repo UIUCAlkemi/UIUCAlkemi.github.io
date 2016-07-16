@@ -35,18 +35,18 @@ var zonesMaterials = []; // Zones Materials
 var zonesClouds = []; // Zones Meshes
 var zonesStats = []; // Some stats of the zones
 
-var separatingFactor = 0.0; // A factor to separate zones
 
 var mouse = new THREE.Vector2();
 var offset = new THREE.Vector3();
 
 var zoneSelect = false; //  Boolean to see whether the user wants to select the Zone
-var barycentricShrinkFactor = 0.0;
+var barycentricShrinkFactor = 0.0; //  A factor shrink the zone around the barycenter.
+var separatingFactor = 0.0; // A factor to separate zones
 
 var useVTK = false; // To load from a vtk file vs from a Json file
 
 function initializeProgram(width, height) {
-    show_overlay(); // Set the overlay - so that nothing is rendered till the JSON request completes. 
+    showOverlay(); // Set the overlay - so that nothing is rendered till the JSON request completes. 
 
     createScene(width, height); // Create the scene.
     if (useVTK) {
@@ -66,7 +66,7 @@ function createScene(width, height) {
 //  The Main Body of the Program
 function serverJSONResponse(data) {
     resetData();
-    
+
     parseData(data); // Parse the Data from the provided JSON
 
     initializeCameras(); // Initialize the Camera
@@ -79,7 +79,7 @@ function serverJSONResponse(data) {
 
     initializeMeshes(); //  Initialize the Meshes/
 
-    remove_overlay();
+    removeOverlay();
 
     draw();
 }
@@ -189,10 +189,8 @@ function update() {
     controls.update(); // Update the Controls
 }
 
-function resizeRenderer(newWidth, newHeight)
-{
-    if(renderer != null)
-    {
+function resizeRenderer(newWidth, newHeight) {
+    if (renderer != null) {
         camera.aspect = newWidth / newHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(newWidth, newHeight);
@@ -215,12 +213,12 @@ function disableZoneSelect() {
     zoneSelect = false;
 }
 
-function show_overlay() {
+function showOverlay() {
     $("#loadingWrapper").css("z-index", 10);
     $("#loadingWrapper").css("opacity", 1.0);
 }
 
-function remove_overlay() {
+function removeOverlay() {
     $("#loadingWrapper").css("z-index", -10);
     $("#loadingWrapper").css("opacity", 0.0);
 }
@@ -246,7 +244,7 @@ function parseNodes(data) {
             nodes[i] = data.nodes[i];
         }
     }
-    
+
     nodesGeom = new THREE.Geometry();
     for (var i = 0; i < nodes.length; i++) {
         nodesGeom.vertices.push(
@@ -275,12 +273,12 @@ function parseEdges(data) {
     for (var i = 0; i < edges.length; i++) {
         edgesGeom.vertices.push(
             new THREE.Vector3(
-                nodes[edges[i].connectivity.n[0]].position.x, 
-                nodes[edges[i].connectivity.n[0]].position.y, 
+                nodes[edges[i].connectivity.n[0]].position.x,
+                nodes[edges[i].connectivity.n[0]].position.y,
                 nodes[edges[i].connectivity.n[0]].position.z),
             new THREE.Vector3(
-                nodes[edges[i].connectivity.n[1]].position.x, 
-                nodes[edges[i].connectivity.n[1]].position.y, 
+                nodes[edges[i].connectivity.n[1]].position.x,
+                nodes[edges[i].connectivity.n[1]].position.y,
                 nodes[edges[i].connectivity.n[1]].position.z)
         );
     }
@@ -298,7 +296,7 @@ function parseFaces(data) {
     if (!useVTK) {
         for (var i = 0; i < data.faces.length; i++) {
             faces[i] = data.faces[i];
-        } 
+        }
     }
 
     for (var i = 0; i < faces.length; i++) {
@@ -319,7 +317,7 @@ function parseFaces(data) {
         facesClouds[i] = new THREE.Mesh(facesGeoms[i], facesMaterials[i]);
         facesClouds[i].name = "Face : " + faces[i].idx;
     }
-    
+
     for (var i = 0; i < faces.length; i++) {
         var faceNodes = faces[i].connectivity.n;
         var v1 = nodes[faceNodes[0]].position;
@@ -338,13 +336,15 @@ function parseZones(data) {
             zones[i] = data.zones[i];
         }
     }
-    
+
     // Calculate the center of the whole geometry
+    //  Add together all the positions.
     for (var i = 0; i < zones.length; i++) {
         zonesCenter.x += zones[i].position.x;
         zonesCenter.y += zones[i].position.y;
         zonesCenter.z += zones[i].position.z;
     }
+    //  Divide by the number of the positions.
     zonesCenter.x /= zones.length;
     zonesCenter.y /= zones.length;
     zonesCenter.z /= zones.length;
@@ -354,18 +354,18 @@ function parseZones(data) {
         var minDihedralAngle = Math.PI / 2;
         var maxDihedralAngle = 0.0;
         var inverseMeanRatio = 0.0;
-        
+
         var zoneFaces = zones[i].connectivity.f;
         for (var j = 0; j < zoneFaces.length; j++) {
             var face = faces[zoneFaces[j]];
-            
+
             var faceNodes = face.connectivity.n;
             var faceNormal = computeNormal(
                 nodes[faceNodes[0]].position,
                 nodes[faceNodes[1]].position,
                 nodes[faceNodes[2]].position
             );
-            
+
             var faceEdgesSet = {};
             for (var k = 0; k < 3; k++) {
                 faceEdgesSet["" + Math.min(faceNodes[k], faceNodes[(k + 1) % 3]) + "-" + Math.max(faceNodes[k], faceNodes[(k + 1) % 3])] = true;
@@ -391,18 +391,18 @@ function parseZones(data) {
                     }
                 }
             }
-            
+
             inverseMeanRatio += facesStats[zoneFaces[j]].inverseMeanRatio;
         }
         zonesStats.push({
-            "minDihedralAngle": minDihedralAngle, 
+            "minDihedralAngle": minDihedralAngle,
             "maxDihedralAngle": maxDihedralAngle,
             "averageInverseMeanRatio": inverseMeanRatio / zoneFaces.length
         });
     }
-    
+
     console.log(zonesStats);
-    
+
     for (var i = 0; i < zones.length; i++) {
         zonesGeoms[i] = new THREE.Geometry();
 
@@ -416,7 +416,7 @@ function parseZones(data) {
             var zoneFaceNodes = zoneFace.connectivity.n
             zonesGeoms[i].faces.push(new THREE.Face3(zoneFaceNodes[0], zoneFaceNodes[1], zoneFaceNodes[2]));
         }
-           
+
         var curZoneColor = Math.random() * 0xffffff;
         zonesMaterials[i] = new THREE.MeshBasicMaterial({
             color: new THREE.Color(curZoneColor),
@@ -456,8 +456,7 @@ function computeCrossProduct(v1, v2) {
 // Compute the dihedral angle between two planes given their normals each represented by an array
 function computeDihedralAngle(normal1, normal2) {
     return Math.acos(Math.abs(computeInnerProduct(
-        [normal1.x, normal1.y, normal1.z], 
-        [normal2.x, normal2.y, normal2.z])));
+        [normal1.x, normal1.y, normal1.z], [normal2.x, normal2.y, normal2.z])));
 }
 
 // Compute the inner product of two vectors each represented by an array
@@ -473,21 +472,21 @@ function computeInnerProduct(v1, v2) {
 function computeFaceInverseMeanRatio(v1, v2, v3) {
     var optimalMatrix = [[1.0, 0.5], [0.0, Math.sqrt(3.0) / 2.0]];
     var optimalMatrixInverse = inverse2d2(optimalMatrix);
-    
-    var e1 = [v2.x- v1.x, v2.y - v1.y, v2.z - v1.z];
+
+    var e1 = [v2.x - v1.x, v2.y - v1.y, v2.z - v1.z];
     var x1 = Math.sqrt(computeInnerProduct(e1, e1));
-    var e2 = [v3.x- v1.x, v3.y - v1.y, v3.z - v1.z];
+    var e2 = [v3.x - v1.x, v3.y - v1.y, v3.z - v1.z];
     var x2 = computeInnerProduct(e1, e2) / x1;
     var y2e = [e2[0] - e1[0] / x1 * x2, e2[1] - e1[1] / x1 * x2, e2[2] - e1[2] / x1 * x2];
     var y2 = Math.sqrt(computeInnerProduct(y2e, y2e));
     var incidenceMatrix = [[x1, x2], [0.0, y2]];
-    
+
     var matrixA = multiply2d2(incidenceMatrix, optimalMatrixInverse);
     var detA = determinant2d2(matrixA);
-    
-    var inverseMeanRatio = (matrixA[0][0] * matrixA[0][0] + matrixA[0][1] * matrixA[0][1] + 
+
+    var inverseMeanRatio = (matrixA[0][0] * matrixA[0][0] + matrixA[0][1] * matrixA[0][1] +
         matrixA[1][0] * matrixA[1][0] + matrixA[1][1] * matrixA[1][1]) / (2.0 * Math.abs(detA));
-        
+
     return inverseMeanRatio;
 }
 
@@ -544,75 +543,71 @@ function showColors(fieldName, colormapFunc) {
 
 // The infamous rainbow color map, normalized to the data range
 function rainbowColormap(fVal, fMin, fMax) {
-	var dx = 0.8;
-	var fValNormalized = (fVal - fMin) / (fMax - fMin);
-	var g = (6.0 - 2.0 * dx) * fValNormalized + dx;
-	var R = Math.max(0.0, (3.0 - Math.abs(g - 4.0) - Math.abs(g - 5.0)) / 2.0) * 255;
-	var G = Math.max(0.0, (4.0 - Math.abs(g - 2.0) - Math.abs(g - 4.0)) / 2.0) * 255;
-	var B = Math.max(0.0, (3.0 - Math.abs(g - 1.0) - Math.abs(g - 2.0)) / 2.0) * 255;
-	color = [Math.round(R), Math.round(G), Math.round(B), 255];
-	return color;
+    var dx = 0.8;
+    var fValNormalized = (fVal - fMin) / (fMax - fMin);
+    var g = (6.0 - 2.0 * dx) * fValNormalized + dx;
+    var R = Math.max(0.0, (3.0 - Math.abs(g - 4.0) - Math.abs(g - 5.0)) / 2.0) * 255;
+    var G = Math.max(0.0, (4.0 - Math.abs(g - 2.0) - Math.abs(g - 4.0)) / 2.0) * 255;
+    var B = Math.max(0.0, (3.0 - Math.abs(g - 1.0) - Math.abs(g - 2.0)) / 2.0) * 255;
+    color = [Math.round(R), Math.round(G), Math.round(B), 255];
+    return color;
 }
 
 // The greyscale color map
-function greyscaleColormap(fVal, fMin, fMax){
+function greyscaleColormap(fVal, fMin, fMax) {
     var c = 255 * ((fVal - fMin) / (fMax - fMin));
     var color = [Math.round(c), Math.round(c), Math.round(c), 255];
     return color;
 }
 
+
 // To conduct bary centric shrinking on each zone
-function updateZoneBaryCentricShrinking() {
+function updateZoneBaryCentricShrinkingAndZoneSeparation() {
+
+    //  For Each Zone,
     for (var i = 0; i < zonesClouds.length; i++) {
+
+
+        //  I'm not really sure how this works again.
+        //  But we don't fix what is not broken.
+        var cartesianByCenter = new THREE.Vector3(
+            zones[i].position.x - zonesCenter.x,
+            zones[i].position.y - zonesCenter.y,
+            zones[i].position.z - zonesCenter.z);
+
+        var movePolar = cartesianToPolar(cartesianByCenter);
+        movePolar.w *= separatingFactor;
+        var move = polarToCartesian(movePolar);
+
+        //   Find the center of the zone.
         var centerX = zones[i].position.x;
         var centerY = zones[i].position.y;
         var centerZ = zones[i].position.z;
 
+        //  For Each Node within the Zone
         for (var j = 0; j < nodes.length; j++) {
+
+            //  Get the Position of the Node.
             var givenX = nodes[j].position.x;
             var givenY = nodes[j].position.y;
             var givenZ = nodes[j].position.z;
 
-            var newX = centerX + barycentricShrinkFactor * (givenX - centerX);
-            var newY = centerY + barycentricShrinkFactor * (givenY - centerY);
-            var newZ = centerZ + barycentricShrinkFactor * (givenZ - centerZ);
+            //  Compute the New Coordinates of the vertices, by adding the scaled distance to the center.
+            var newX = centerX + move.x + barycentricShrinkFactor * (givenX - centerX);
+            var newY = centerY + move.y + barycentricShrinkFactor * (givenY - centerY);
+            var newZ = centerZ + move.z + barycentricShrinkFactor * (givenZ - centerZ);
 
+            //  Set the new positions.
             zonesGeoms[i].vertices[j].x = newX;
             zonesGeoms[i].vertices[j].y = newY;
             zonesGeoms[i].vertices[j].z = newZ;
+
+            //  Mark for update.
             zonesClouds[i].geometry.verticesNeedUpdate = true;
         }
     }
 }
 
-// Separating meshes
-// This is done by getting the distance and polar position of the original center
-// then calculate the move based on it (move direction from the polar position and move distance based on the distance)
-function separateZones() {
-    for (var i = 0; i < zones.length; i++) {
-        var cartesianByCenter = new THREE.Vector3(
-            zones[i].position.x - zonesCenter.x, 
-            zones[i].position.y - zonesCenter.y, 
-            zones[i].position.z - zonesCenter.z);
-        var movePolar = cartesianToPolar(cartesianByCenter);
-        movePolar.w *= separatingFactor;
-        var move = polarToCartesian(movePolar);
-        for (var j = 0; j < nodes.length; j++) {
-            var givenX = nodes[j].position.x;
-            var givenY = nodes[j].position.y;
-            var givenZ = nodes[j].position.z;
-
-            var newX = givenX + move.x;
-            var newY = givenY + move.y;
-            var newZ = givenZ + move.z;
-
-            zonesGeoms[i].vertices[j].x = newX;
-            zonesGeoms[i].vertices[j].y = newY;
-            zonesGeoms[i].vertices[j].z = newZ;
-        }
-        zonesClouds[i].geometry.verticesNeedUpdate = true;
-    }
-}
 
 // Convert the Cartesian vector(x,y,z) representation to the polar vector(x=cosTheta,y=sinTheta,z=sinPhi,w=r) representation
 function cartesianToPolar(cartesian) {
@@ -675,22 +670,23 @@ function getDataFromVTK(data) {
 //  The Main Body of the Program when loading from vtk
 function serverVTKResponse(data) {
     resetData();
-    
+
     getDataFromVTK(data);
-    
+
     parseData(data); // Parse the Data from the provided JSON
 
-    initializeCameras(); // Set the Camera
+    initializeCameras(); // Initialize the Camera
 
-    initializeLighting(); // Set the Lighting 
+    initializeLighting(); // Initialize the Lighting 
 
-    initializeRenderer();
+    initializeRenderer(); //  Iniitialize the Renderer
 
-    initializeCameraControls();
+    initializeCameraControls(); //  Initialize the Camera Controls.
 
-    initializeMeshes();
+    initializeMeshes(); //  Initialize the Meshes.
 
-    remove_overlay();
+    removeOverlay();
+
     draw();
 }
 
