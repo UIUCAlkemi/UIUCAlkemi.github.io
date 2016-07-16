@@ -27,50 +27,6 @@
 
 }
 
-
-
-
-#ControlSpaceWrapper {
-    top: 0;
-    left: 0;
-    position: absolute;
-    display: flex;
-    align-items: stretch;
-    background: rgba(255,255,255,.8);
-}
-
-
-#Controls {
-    flex-grow: 2;
-    flex-shrink: 2;
-    display: inline;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    margin-top: 10px;
-
-}
-
-.ControlButton {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border: 2px solid #20B2AA;
-    width: 100px;
-    color: #1c9c95;
-    border-radius : 4px;
-    background-color: #fafafa;
-    padding: 5px 10px;
-    margin-bottom:10px;
-    margin-right: 30px;
-    margin-left: 5px;
-}
-
-.ControlButton:active{
-  color: white;
-  background-color: #cd5c5c;
-}
-
 .UpdateResetButton{
   display: inline-block;
   padding: 10px 20px;
@@ -87,135 +43,6 @@
 .UpdateResetButton:active{
   color: white;
   background-color: #cd5c5c;
-}
-#ControlButton1 {}
-
-#ControlButton2 {}
-
-#ControlButton3 {}
-
-#ControlButton4 {}
-
-#ControlButton5 {}
-
-#InformationSpaceWapper {
-    /*min-width: 80%;
-    flex-grow: 8;
-    flex-shrink: 8;*/
-    display: inline-block;
-    height: 250px;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    color: #20B2AA;
-    background: rgba(255,255,255,.8);
-
-
-}
-
-#InformationSpaceWapper2 {
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    text-align: center;
-
-}
-
-#InformationSpace {
-    height: auto;
-    display: inline-block;
-}
-
-#BarycentricShrinkFactorDisplay {
-    display: none;
-    flex-direction: column;
-    text-align: center;
-    align-items: stretch;
-    align-content: center;
-    justify-content: center;
-}
-
-#CameraControlsDisplay {
-    display: table-cell;;
-    text-align: center;
-    vertical-align: middle;
-
-}
-
-#ShowColorDisplay {
-    display: none;
-}
-
-#ZoneSeparationControlDisplay {
-    display: none;
-}
-
-#LoadSourceControlDisplay {
-    display: none;
-}
-
-#BarycentricShrinkFactorToggle {
-    border-width: thin;
-    border-color: #bdc3c7;
-    border-style: solid;
-    flex-grow: 1;
-    text-align: center;
-    vertical-align: middle;
-}
-
-#BarycentricShrinkFactorHeader {
-    flex-grow: 1;
-    text-align: center;
-    vertical-align: middle;
-}
-
-#ZoneInformationDisplayWrapper {
-    display: inline-block;
-    background: rgba(0,0,0,.7);
-}
-
-#ZoneInformationDisplay {
-    min-height: 100%;
-    min-width: 100%;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    text-align: center;
-    align-items: stretch;
-    justify-content: center;
-}
-
-.ZoneInformationColumn {
-    display: inline;
-    flex-grow: 1;
-    flex-shrink: 1;
-    text-align: center;
-    align-items: stretch;
-    justify-content: center;
-    flex-direction: column;
-    max-width: auto;
-    max-height: auto;
-}
-
-.ZoneInformationCellHolder {
-    display: inline;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-wrap: wrap;
-    text-align: center;
-    align-items: stretch;
-    justify-content: center;
-    max-height: 100%;
-}
-
-.ZoneInformationCell {
-    display: flex;
-    flex-grow: 1;
-    flex-shrink: 1;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-
 }
 
 .container{
@@ -271,8 +98,57 @@
   word-wrap: break-word;
 }
 
-#BarycentricControlDisplay {
+
+/*TO EDIT*/
+#ZoneSeparationControlDisplay {
     display: none;
+}
+
+#ZoneInformationDisplayWrapper {
+    display: inline-block;
+    background: rgba(0,0,0,.7);
+}
+
+#ZoneInformationDisplay {
+    min-height: 100%;
+    min-width: 100%;
+    height: 100%;
+    width: 100%;
+    display: flex;
     text-align: center;
-    vertical-align: middle;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.ZoneInformationColumn {
+    display: inline;
+    flex-grow: 1;
+    flex-shrink: 1;
+    text-align: center;
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+    max-width: auto;
+    max-height: auto;
+}
+
+.ZoneInformationCellHolder {
+    display: inline;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: stretch;
+    justify-content: center;
+    max-height: 100%;
+}
+
+.ZoneInformationCell {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
 }

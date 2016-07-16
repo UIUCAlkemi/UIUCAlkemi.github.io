@@ -115,19 +115,15 @@ label:hover{
   color: #20B2AA;
 }
 .check{
-  /*position: relative;
-  border: 5px solid #AAAAAA;
-  display: inline-block;
- 	z-index: 5;
- 	transition: border .25s linear;
- 	-webkit-transition: border .25s linear;*/
+
+  justify-content: center;
   display: inline-block;
   position: relative;
-  float: left;
   padding: 5px;
   line-height: 10px;
   box-sizing:border-box;
   cursor: pointer;
+  border-radius: 20px;
   border: 2px solid #999999;
   background-color: #EEEEEE;
   color: #999999;

@@ -24,32 +24,14 @@ function initializeInformationControls() {
 
     });
 
-    $("#BarycentricShrinkFactorButton").click(function () {
-        $("#CameraControlsDisplay").css("display", "none");
-        $("#ZoneInformationDisplayWrapper").css("display", "none");
-        $("#BarycentricControlDisplay").css("display", "table-cell");
-        $("#ShowColorDisplay").css("display", "none");
-        $("#ZoneSeparationControlDisplay").css("display", "none");
-        $("#LoadSourceControlDisplay").css("display", "none");
-        disableZoneSelect();
-    });
 
-    $("#BarycentricControlUpdate").click(function () {
-        barycentricShrinkFactor = document.getElementById("BarycentricShrinkingInput").value;
+    $("#BarycentricShrinkingInput").on("input change", function () {
+        barycentricShrinkFactor = this.value;
         updateZoneBaryCentricShrinking();
     });
 
-  /*  $("#ShowColorButton").click(function () {
-        $("#CameraControlsDisplay").css("display", "none");
-        $("#ZoneInformationDisplayWrapper").css("display", "none");
-        $("#BarycentricControlDisplay").css("display", "none");
-        $("#ShowColorDisplay").css("display", "table-cell");
-        $("#ZoneSeparationControlDisplay").css("display", "none");
-        $("#LoadSourceControlDisplay").css("display", "none");
-        disableZoneSelect();
-    });
 
-    $("#ShowColorControlUpdate").click(function () {
+  /*  $("#ShowColorControlUpdate").click(function () {
         var colormapFunc = greyscaleColormap;
         if (document.getElementById("showRainbow").checked) {
             colormapFunc = rainbowColormap;
@@ -78,19 +60,9 @@ function initializeInformationControls() {
         showColors(fieldName, colormapFunc);
     });
 
-    $("#ZoneSeparationButton").click(function () {
-        $("#CameraControlsDisplay").css("display", "none");
-        $("#ZoneInformationDisplayWrapper").css("display", "none");
-        $("#BarycentricControlDisplay").css("display", "none");
-        $("#ShowColorDisplay").css("display", "none");
-        $("#ZoneSeparationControlDisplay").css("display", "table-cell");
-        $("#LoadSourceControlDisplay").css("display", "none");
 
-        disableZoneSelect();
-    });
-
-    $("#ZoneSeparationControlUpdate").click(function () {
-        separatingFactor = document.getElementById("ZoneSeparationInput").value;
+    $("#ZoneSeparationInput").on("input change", function () {
+        separatingFactor = this.value;
         separateZones();
     });
 
