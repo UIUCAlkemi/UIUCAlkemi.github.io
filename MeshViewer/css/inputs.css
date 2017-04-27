@@ -1,0 +1,146 @@
+/** TOGGLE **/
+.toggle-container {
+    position: relative;
+    width: 90px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #999999;
+    border-radius: 20px;
+}
+
+.toggle-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+
+.toggle-inner:before, .toggle-inner:after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 30px;
+    padding: 0;
+    line-height: 30px;
+    font-size: 14px;
+    color: white;
+    box-sizing: border-box;
+}
+
+.toggle-inner:before {
+    padding-left: 10px;
+    background-color: #EEEEEE;
+    color: #20B2AA;
+}
+
+.toggle-inner:after {
+    padding-right: 10px;
+    background-color: #EEEEEE;
+    color: #999999;
+    text-align: right;
+}
+
+.toggle-switch {
+    display: block;
+    width: 18px;
+    margin: 6px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 56px;
+    border: 1px solid #999999;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+}
+
+input[type="checkbox"]:checked+.toggle-label .toggle-inner {
+    margin-left: 0;
+}
+
+input[type="checkbox"]:checked+.toggle-label .toggle-switch {
+    right: 0px;
+}
+
+#camera_control+label .toggle-inner:before{
+    content: "ON";
+}
+
+#camera_control+label .toggle-inner:after{
+    content: "OFF";
+}
+
+#color_control+label .toggle-inner:before{
+    content: "COLOR";
+}
+
+#color_control+label .toggle-inner:after{
+    content: "GREY";
+}
+
+/** RADIO **/
+input[type="radio"]{
+    margin-right: 5px;
+}
+input[type="radio"]+label{
+    font-size: 14px;
+}
+
+/** RANGE **/
+input[type="range"]{
+    -webkit-appearance: none;
+    margin:0;
+    flex: 1;
+    margin-right: 5px;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  height: 17px;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px #50555C;
+  background: #EEEEEE;
+  border-radius: 14px;
+  border: 1px solid #999999;
+}
+
+/** FILE **/
+.file-container {
+    overflow: hidden;
+    position: relative;
+    height: 40px;
+    flex: 1;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #CCCCCC;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.file-container:hover{
+    color:#20B2AA;
+}
+
+[type=file] {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}

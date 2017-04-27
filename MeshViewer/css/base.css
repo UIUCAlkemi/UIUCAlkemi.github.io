@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:100,300,400');
+
+body, html, div, img, label, p, b,
+h1, h2, h3, h4, h5, h6, ul, li,
+dl, dt, dd, form, a, input, object, textarea{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-size: 100%;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 300;
+    color: #262626;
+    cursor: default;
+    background-color: #FFFFFF
+}
+
+html{
+    height: 100%;
+    width: 100%;
+    line-height: normal;
+    position: relative;
+}
+
+body{
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+#canvas{
+    flex: 1;
+}
+
+.menu{
+    width: 300px;
+    min-width: 300px;
+    border-right: 1px solid #CCCCCC;
+    padding: 10px;
+    display: flex;
+    flex-direction: column
+}
+
+.menu-row{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 0px 10px 0px;
+}
+
+.group-row{
+    display: flex;
+    padding: 5px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.group-row > label{
+    margin-bottom: 5px;
+}
+
+.group-row .menu-row{
+    justify-content: flex-start;
+    padding: 0;
+}
+.zone-information{
+    flex: 1;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+    word-wrap: break-word;
+    overflow-y: scroll;
+}
+.scale-num{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+}

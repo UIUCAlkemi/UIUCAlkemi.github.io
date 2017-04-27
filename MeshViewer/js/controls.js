@@ -1,128 +1,117 @@
-// On Click events for the controlller
+var DATA;
 
-function initializeInformationControls() {
+window.onload = function(){
 
-    $("#myonoffswitch-camera").click(function () {
-        if (this.checked) {
-            enableControls();
-        } else {
-            disableControls();
-        }
+    var file_input = document.getElementById('file_input');
+    file_input.addEventListener('change', function(e) {
+
+        var file = file_input.files[0];
+        //Change input styling
+        $(".file-container").text(file.name);
+        $(".file-container").css("color", "#CCCCCC");
+
+		var reader = new FileReader();
+
+	    reader.onload = function(e) {
+
+            if(file.name.substring(file.name.length-4) == ".vtk"){
+                useVTK = true;
+                DATA = reader.result;
+                //serverVTKResponse(DATA);
+                //render();
+
+            }
+            else if(file.name.substring(file.name.length-5) == ".json"){
+                useVTK = false;
+                DATA = JSON.parse(reader.result);
+                //serverJSONResponse(DATA);
+                //render();
+            }
+
+            else{ //TODO Not at all robust way to ensure correct file type input
+                $(".file-container").css("color", "#cd5c5c");
+                //Don't proceed with rendering.
+            }
+		};
+	    reader.readAsText(file);
     });
+};
 
-    $("#SelectZoneButton").click(function () {
-        $("#CameraControlsDisplay").css("display", "none");
-        $("#ZoneInformationDisplayWrapper").css("display", "table-cell");
-        $("#BarycentricControlDisplay").css("display", "none");
-        $("#ShowColorDisplay").css("display", "none");
-        $("#ZoneSeparationControlDisplay").css("display", "none");
-        $("#LoadSourceControlDisplay").css("display", "none");
-        enableZoneSelect();
-        $("#ZoneGeneralInformation").html();
-        $("#ZoneGeometryInformation").html();
-        $("#ZoneConnectivityInformation").html();
+$("#camera_control").on('click', function(){
+    if (this.checked) {
+        enableControls();
+    }
+    else {
+        disableControls();
+    }
+});
 
-    });
+$("#color_control").on('click', function(){
+    var colormapFunc = "";
+    if (this.checked) {
+        colormapFunc = rainbowColormap;
+    }
+    else {
+        colormapFunc = greyscaleColormap;
+    }
+    var fieldName = "minDihedralAngle";
+    showColors(fieldName, colormapFunc);
+});
 
+$("#BarycentricShrinkingInput").on("input change", function () {
+    barycentricShrinkFactor = this.value;
+    $("#shrink_num").text(barycentricShrinkFactor);
+    updateZoneBaryCentricShrinkingAndZoneSeparation();
+});
 
-    $("#BarycentricShrinkingInput").on("input change", function () {
-        barycentricShrinkFactor = this.value;
-        updateZoneBaryCentricShrinkingAndZoneSeparation();
-    });
-
-
-    /*  $("#ShowColorControlUpdate").click(function () {
-          var colormapFunc = greyscaleColormap;
-          if (document.getElementById("showRainbow").checked) {
-              colormapFunc = rainbowColormap;
-          }
-          var fieldName = "minDihedralAngle";
-          if (document.getElementById("showMaxDihedralAngle").checked) {
-              fieldName = "maxDihedralAngle";
-          } else if (document.getElementById("showAverageMeanInverseRatio").checked) {
-              fieldName = "averageInverseMeanRatio";
-          }
-          showColors(fieldName, colormapFunc);
-      });
-
-      $("#ShowColorControlReset").click(function () {
-          showRandomColors();
-      }); */
-
-
-    $("#myonoffswitch-color").click(function () {
-        var colormapFunc = "";
-        if (this.checked) {
-            colormapFunc = rainbowColormap;
-        } else {
-            colormapFunc = greyscaleColormap;
-        }
-        var fieldName = "minDihedralAngle";
-        showColors(fieldName, colormapFunc);
-    });
-
-
-    $("#ZoneSeparationInput").on("input change", function () {
-        separatingFactor = this.value;
-        updateZoneBaryCentricShrinkingAndZoneSeparation();
-    });
-
-    $("#LoadSourceButton").click(function () {
-        $("#CameraControlsDisplay").css("display", "none");
-        $("#ZoneInformationDisplayWrapper").css("display", "none");
-        $("#BarycentricControlDisplay").css("display", "none");
-        $("#ShowColorDisplay").css("display", "none");
-        $("#ZoneSeparationControlDisplay").css("display", "none");
-        $("#LoadSourceControlDisplay").css("display", "table-cell");
-        disableZoneSelect();
-    });
-
-    $("#LoadSourceControlUpdate").click(function () {
-        if (document.getElementById("loadVTK").checked) {
-            useVTK = true;
-            $.get('./models/polyex.vtk', serverVTKResponse, 'text');
-        } else if (document.getElementById("loadJSON").checked) {
-            useVTK = false;
-            $.getJSON("./models/decomposedTetra.json", serverJSONResponse);
-        }
-    });
-
-}
+$("#ZoneSeparationInput").on("input change", function () {
+    separatingFactor = this.value;
+    $("#zone_num").text(separatingFactor);
+    updateZoneBaryCentricShrinkingAndZoneSeparation();
+});
 
 // FIll the Information Space with the Information from the selected zone
 function fillSelectedZoneInformation(zoneNumber) {
+    //Clear out prior data
+    $(".zone-information").empty();
     if (useVTK) {
-        $("#ZoneGeneralInformation").html("You have selected zone " + zoneNumber);
+        /*$("#ZoneGeneralInformation").html("You have selected zone " + zoneNumber);
         $("#ZoneGeometryInformation").html("You have selected zone " + zoneNumber);
-        $("#ZoneConnectivityInformation").html("You have selected zone " + zoneNumber);
+        $("#ZoneConnectivityInformation").html("You have selected zone " + zoneNumber);*/
+        $(".zone-information").text(zoneNumber);
         return;
     }
 
-    var idxString = "";
-    var domainIdxString = "";
-    var globalIdxString = "";
-    var positonString = "";
-    var classificationString = "";
+    var zone_information = {
+        idxString:`IDX: ${zones[zoneNumber].idx}`,
+        domainIdxString:`Domain ID: ${zones[zoneNumber].domainID}`,
+        globalIdxString:`Global ID: ${zones[zoneNumber].globalID}`,
+        positonString:`Position: (${zones[zoneNumber].position.x}, ${zones[zoneNumber].position.y}, ${zones[zoneNumber].position.z})`,
+        classificationString: "Classification: ",
+        geometry: "<br>GEOMETRY",
+        geometryString: "",
+        connectivity: "<br>CONNECTIVITY",
+        nodesString:`Nodes: [${zones[zoneNumber].connectivity.n}]`,
+        edgesString: `Edges: [${zones[zoneNumber].connectivity.e}]`,
+        facesString: `Faces: [${zones[zoneNumber].connectivity.f}]`,
+        sidesString: `Sides: [${zones[zoneNumber].connectivity.s}]`,
+        cornersString:`Corners: [${zones[zoneNumber].connectivity.c}]`,
+        zonesString: `Zones: [${zones[zoneNumber].connectivity.z_n}]`
+    };
 
-    idxString = "IDX : " + zones[zoneNumber].idx;
-    domainIdxString = "DomainID : " + zones[zoneNumber].domainID;
-    globalIdxString = "Global ID : " + zones[zoneNumber].globalID;
-    positonString = "Position: (X : " + zones[zoneNumber].position.x + " , Y : " + zones[zoneNumber].position.y + " , Z : " + zones[zoneNumber].position.z + " )";
-    classificationString = " Classification : ";
+
     for (var i = 0; i < zones[zoneNumber].classification.length; i++) {
-        classificationString = classificationString + " " + zones[zoneNumber].classification[i] + " ";
+        zone_information.classificationString += " " + zones[zoneNumber].classification[i];
     }
 
-    $("#ZoneGeneralInformation").html("" + idxString + " <br> <br> " + domainIdxString + " <br> <br> " + globalIdxString + " <br> <br> " + positonString + " <br> <br> " + classificationString);
 
-    var geometryString = "";
     for (var i = 0; i < zones[zoneNumber].geom.length; i++) {
-        geometryString = geometryString + "(X : " + zones[zoneNumber].geom[i].x + " , Y : " + zones[zoneNumber].geom[i].y + " , Z : " + zones[zoneNumber].geom[i].z + " ) <br>";
+        zone_information.geometryString += `(${zones[zoneNumber].geom[i].x }, ${zones[zoneNumber].geom[i].y}, ${zones[zoneNumber].geom[i].z})`;
     }
-    $("#ZoneGeometryInformation").html("" + geometryString);
 
-    var connectivityString = "Connectivity : <br>  Nodes : [" + zones[zoneNumber].connectivity.n + "] <br> Edges : [" + zones[zoneNumber].connectivity.e + "] <br> Faces : [" +
-        zones[zoneNumber].connectivity.f + "] <br> Sides : [" + zones[zoneNumber].connectivity.s + "] <br> Corners : [ " + zones[zoneNumber].connectivity.c + "] <br> Zones : [" + zones[zoneNumber].connectivity.z_n + "]";
-    $("#ZoneConnectivityInformation").html("" + connectivityString);
+
+    for(var key in zone_information){
+        $(".zone-information").append(zone_information[key] + "<br>");
+    }
 
 }

@@ -46,13 +46,16 @@ var separatingFactor = 0.0; // A factor to separate zones
 var useVTK = false; // To load from a vtk file vs from a Json file
 
 function initializeProgram(width, height) {
-    showOverlay(); // Set the overlay - so that nothing is rendered till the JSON request completes. 
+    //showOverlay(); // Set the overlay - so that nothing is rendered till the JSON request completes.
 
     createScene(width, height); // Create the scene.
     if (useVTK) {
         $.get('./models/polyex.vtk', serverVTKResponse, 'text');
+        //serverVTKResponse(DATA);
+
     } else {
         $.getJSON("./models/decomposedTetra.json", serverJSONResponse); // Everything Runs from the CallBack here.
+        //serverJSONResponse(DATA);
     }
 }
 
@@ -60,26 +63,24 @@ function initializeProgram(width, height) {
 function createScene(width, height) {
     screen_width = width;
     screen_height = height;
-    scene = new THREE.Scene();
 }
 
 //  The Main Body of the Program
 function serverJSONResponse(data) {
+    console.log(data)
     resetData();
 
     parseData(data); // Parse the Data from the provided JSON
 
     initializeCameras(); // Initialize the Camera
 
-    initializeLighting(); // Initialize the Lighting 
+    initializeLighting(); // Initialize the Lighting
 
     initializeRenderer(); //  Initialize the Renderer
 
     initializeCameraControls(); //  Initialize the Camera Controls
 
     initializeMeshes(); //  Initialize the Meshes/
-
-    removeOverlay();
 
     draw();
 }
@@ -116,7 +117,8 @@ function initializeRenderer() {
     myCanvas = $("canvas");
     renderer = new THREE.WebGLRenderer({
         antialias: true, // Set antialiasing to be true
-        canvas: myCanvas.get(0)
+        canvas: myCanvas.get(0),
+        alpha: true
     });
 
     renderer.autoClear = false;
@@ -131,9 +133,10 @@ function initializeRenderer() {
 
 //  On Mouse Move Callback
 function onDocumentMouseMove(event) {
+
     event.preventDefault();
-    mouse.x = (cursorPositionInCanvas(renderer.domElement, event)[0]) / $("#canvas").width() * 2 - 1;
-    mouse.y = -(cursorPositionInCanvas(renderer.domElement, event)[1]) / $("#canvas").height() * 2 + 1;
+    mouse.x = (cursorPositionInCanvas(renderer.domElement, event)[0]) / $("canvas").width() * 2 - 1;
+    mouse.y = -(cursorPositionInCanvas(renderer.domElement, event)[1]) / $("canvas").height() * 2 + 1;
 }
 
 function cursorPositionInCanvas(canvas, event) {
@@ -150,10 +153,10 @@ function cursorPositionInCanvas(canvas, event) {
 function onDocumentMouseDown(event) {
     event.preventDefault();
 
-    mouse.x = ((cursorPositionInCanvas(renderer.domElement, event)[0]) / $("#canvasWrapper").width()) * 2 - 1;
-    mouse.y = (-(cursorPositionInCanvas(renderer.domElement, event)[1]) / $("#canvasWrapper").height()) * 2 + 1;
+    mouse.x = ((cursorPositionInCanvas(renderer.domElement, event)[0]) / $("canvas").width()) * 2 - 1;
+    mouse.y = (-(cursorPositionInCanvas(renderer.domElement, event)[1]) / $("canvas").height()) * 2 + 1;
 
-    if (zoneSelect == true) {
+    //if (zoneSelect === true) {
         var vector = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera);
 
         var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
@@ -161,11 +164,12 @@ function onDocumentMouseDown(event) {
         var intersects = raycaster.intersectObjects(scene.children, true);
 
         if (intersects.length > 0) {
+            
             var obj_name = intersects[0].object.name;
             console.log(obj_name.split(" ")[2]);
             fillSelectedZoneInformation(obj_name.split(" ")[2]);
         }
-    }
+    //}
 }
 
 //  On Mouse Up Callback
@@ -190,7 +194,7 @@ function update() {
 }
 
 function resizeRenderer(newWidth, newHeight) {
-    if (renderer != null) {
+    if (renderer !== null) {
         camera.aspect = newWidth / newHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(newWidth, newHeight);
@@ -211,16 +215,6 @@ function enableZoneSelect() {
 
 function disableZoneSelect() {
     zoneSelect = false;
-}
-
-function showOverlay() {
-    $("#loadingWrapper").css("z-index", 10);
-    $("#loadingWrapper").css("opacity", 1.0);
-}
-
-function removeOverlay() {
-    $("#loadingWrapper").css("z-index", -10);
-    $("#loadingWrapper").css("opacity", 0.0);
 }
 
 function initializeMeshes() {
@@ -252,13 +246,13 @@ function parseNodes(data) {
         );
     }
 
-    nodesMaterial = new THREE.PointCloudMaterial({
+    nodesMaterial = new THREE.PointsMaterial({
         color: 0xf0f0f0,
         side: THREE.DoubleSide,
         size: 0.5
     });
 
-    nodesCloud = new THREE.PointCloud(nodesGeom, nodesMaterial);
+    nodesCloud = new THREE.Points(nodesGeom, nodesMaterial);
 }
 
 //  Parses the Edges and creates the required Geometry
@@ -288,7 +282,7 @@ function parseEdges(data) {
         linewidth: 4
     });
 
-    edgesCloud = new THREE.Line(edgesGeom, edgesMaterial, THREE.LinePieces);
+    edgesCloud = new THREE.Line(edgesGeom, edgesMaterial, THREE.LineSegments);
 }
 
 //  Parses the Faces and creates the required Geometry
@@ -401,7 +395,7 @@ function parseZones(data) {
         });
     }
 
-    console.log(zonesStats);
+    //console.log(zonesStats);
 
     for (var i = 0; i < zones.length; i++) {
         zonesGeoms[i] = new THREE.Geometry();
@@ -518,7 +512,7 @@ function showRandomColors() {
     }
 }
 
-// Change the color of the mesh according to some stat field and some function here   
+// Change the color of the mesh according to some stat field and some function here
 function showColors(fieldName, colormapFunc) {
     var fMet = false;
     var fMax = 0.0;
@@ -677,15 +671,13 @@ function serverVTKResponse(data) {
 
     initializeCameras(); // Initialize the Camera
 
-    initializeLighting(); // Initialize the Lighting 
+    initializeLighting(); // Initialize the Lighting
 
     initializeRenderer(); //  Iniitialize the Renderer
 
     initializeCameraControls(); //  Initialize the Camera Controls.
 
     initializeMeshes(); //  Initialize the Meshes.
-
-    removeOverlay();
 
     draw();
 }

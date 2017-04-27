@@ -15,19 +15,23 @@ var finalHeight = 0; //
 
 //
 $(document).ready(function () {
-
-});
-
-//
-$(window).load(function () {
-    console.log("JQuery is now functional."); //  JQuery!
     initializeCanvas(); //  Initialize the Canvas!
     resizeCanvas();
-    initializeInformationControls();
+    //initializeInformationControls();
     initializeWebGL(); //  Start up WebGL
-
 });
 
+/*function render(){
+    initializeCanvas();
+    resizeCanvas();
+    initializeWebGL();
+    //initializeControls();
+
+}*/
+
+function initializeControls(){
+    ///Nothin yet
+}
 //
 $(window).resize(function () {
 
@@ -47,25 +51,22 @@ function resizeCanvas() {
     windowWidth = window.innerWidth;
     windowHeight = window.innerHeight;
 
-    console.log("Window Width : " + windowWidth);
-    console.log("window Height : " + windowHeight);
-    
-    $('#canvasWrapper').width(windowWidth);
-    $('#canvasWrapper').height(windowHeight);
+    /*$('#canvasWrapper').width(windowWidth);
+    $('#canvasWrapper').height(windowHeight);*/
 
-    $('#canvas').attr({
+    /*$('#canvas').attr({
         width: windowWidth,
         height: windowHeight
-    });
+    });*/
+    //console.log($("canvas").width())
 
+    /*cWidth = windowWidth;
+    cHeight = windowHeight;*/
 
-    cWidth = windowWidth;
-    cHeight = windowHeight;
+    finalWidth  = $("canvas").width();
+    finalHeight = $("canvas").height();
 
-    finalWidth  = windowWidth;
-    finalHeight = windowHeight;
-
-    resizeRenderer(cWidth, cHeight);
+    resizeRenderer(finalWidth, finalHeight);
 }
 
 
