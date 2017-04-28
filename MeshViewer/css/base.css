@@ -20,29 +20,31 @@ dl, dt, dd, form, a, input, object, textarea{
 html{
     height: 100%;
     width: 100%;
+
     line-height: normal;
     position: relative;
 }
 
 body{
-    overflow: hidden;
+    overflow:auto;
     position: relative;
     height: 100%;
     width: 100%;
     display: flex;
 }
 
-#canvas{
-    flex: 1;
+canvas{
+    width: 76%;
 }
 
 .menu{
-    width: 300px;
-    min-width: 300px;
+    min-width: 260px;
+    min-height: 480px;
+    width:24%;
     border-right: 1px solid #CCCCCC;
     padding: 10px;
     display: flex;
-    flex-direction: column
+    flex-direction: column;
 }
 
 .menu-row{
@@ -55,7 +57,7 @@ body{
 
 .group-row{
     display: flex;
-    padding: 5px;
+    padding: 0px 0px 10px 0px;
     flex-direction: column;
     align-items: flex-start;
 }
@@ -68,6 +70,7 @@ body{
     padding: 0;
 }
 .zone-information{
+    /*height: 100%;*/
     flex: 1;
     border: 1px solid #999999;
     border-radius: 5px;

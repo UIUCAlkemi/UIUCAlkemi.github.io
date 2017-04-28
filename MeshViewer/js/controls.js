@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var DATA;
 
 window.onload = function(){
@@ -17,19 +18,17 @@ window.onload = function(){
             if(file.name.substring(file.name.length-4) == ".vtk"){
                 useVTK = true;
                 DATA = reader.result;
-                //serverVTKResponse(DATA);
-                //render();
+                startRender();
 
             }
             else if(file.name.substring(file.name.length-5) == ".json"){
                 useVTK = false;
                 DATA = JSON.parse(reader.result);
-                //serverJSONResponse(DATA);
-                //render();
+                startRender();
             }
 
             else{ //TODO Not at all robust way to ensure correct file type input
-                $(".file-container").css("color", "#cd5c5c");
+                $(".file-container").css("color", "#CD5C5C");
                 //Don't proceed with rendering.
             }
 		};
@@ -39,10 +38,10 @@ window.onload = function(){
 
 $("#camera_control").on('click', function(){
     if (this.checked) {
-        enableControls();
+        controls.enabled = true;
     }
     else {
-        disableControls();
+        controls.enabled = false;
     }
 });
 
@@ -74,10 +73,8 @@ $("#ZoneSeparationInput").on("input change", function () {
 function fillSelectedZoneInformation(zoneNumber) {
     //Clear out prior data
     $(".zone-information").empty();
-    if (useVTK) {
-        /*$("#ZoneGeneralInformation").html("You have selected zone " + zoneNumber);
-        $("#ZoneGeometryInformation").html("You have selected zone " + zoneNumber);
-        $("#ZoneConnectivityInformation").html("You have selected zone " + zoneNumber);*/
+    if (useVTK){
+        console.log(zoneNumber)
         $(".zone-information").text(zoneNumber);
         return;
     }
@@ -113,5 +110,7 @@ function fillSelectedZoneInformation(zoneNumber) {
     for(var key in zone_information){
         $(".zone-information").append(zone_information[key] + "<br>");
     }
+
+    console.log(zonesStats[zoneNumber].minDihedralAngle);
 
 }

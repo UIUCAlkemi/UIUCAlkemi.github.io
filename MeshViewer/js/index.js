@@ -1,78 +1,36 @@
-var targetWidth = window.innerWidth; //
-var targetHeight = window.innerHeight; //
-var targetAspectRatio = targetWidth / targetHeight; //
-
-var canvasElement = null; //
-var canvasHolder = null; //
-var webglHolder = null; //
-
-var ctx = null; //
-
-var gl = null; //
-
 var finalWidth = 0; //
 var finalHeight = 0; //
 
 //
-$(document).ready(function () {
-    initializeCanvas(); //  Initialize the Canvas!
+/*$(document).ready(function () {
     resizeCanvas();
     //initializeInformationControls();
-    initializeWebGL(); //  Start up WebGL
-});
+    initializeProgram(finalWidth, finalHeight); //  Start up WebGL
+});*/
 
-/*function render(){
-    initializeCanvas();
+function startRender(){
     resizeCanvas();
-    initializeWebGL();
-    //initializeControls();
-
-}*/
-
-function initializeControls(){
-    ///Nothin yet
+    initializeProgram(finalWidth, finalHeight);
 }
+
 //
 $(window).resize(function () {
-
-    //  This is really where it is needed, if you want dynamic resizing. Doesn't quite work yet.
     resizeCanvas();
 });
-
-//
-function initializeCanvas() {
-    canvasElement = document.getElementById("canvas"); //  Get the canvas element.
-}
-
 
 //
 function resizeCanvas() {
 
-    windowWidth = window.innerWidth;
-    windowHeight = window.innerHeight;
+    cWidth = window.innerWidth*0.76;
+    cHeight = window.innerHeight;
 
-    /*$('#canvasWrapper').width(windowWidth);
-    $('#canvasWrapper').height(windowHeight);*/
+    $('canvas').attr({
+        width: cWidth,
+        height: cHeight
+    });
 
-    /*$('#canvas').attr({
-        width: windowWidth,
-        height: windowHeight
-    });*/
-    //console.log($("canvas").width())
+    finalWidth  = cWidth;
+    finalHeight = cHeight;
 
-    /*cWidth = windowWidth;
-    cHeight = windowHeight;*/
-
-    finalWidth  = $("canvas").width();
-    finalHeight = $("canvas").height();
-
-    resizeRenderer(finalWidth, finalHeight);
-}
-
-
-//  Web GL Begins Here!
-
-
-function initializeWebGL() {
-    initializeProgram(finalWidth, finalHeight); //
+    resizeRenderer(cWidth, cHeight);
 }
