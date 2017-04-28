@@ -69,15 +69,20 @@ canvas{
     justify-content: flex-start;
     padding: 0;
 }
-.zone-information{
-    /*height: 100%;*/
+.information-wrapper{
     flex: 1;
+    display: flex;
+    flex-direction: column;
     border: 1px solid #999999;
     border-radius: 5px;
     padding: 5px;
-    font-size: 12px;
-    word-wrap: break-word;
     overflow-y: scroll;
+}
+
+.zone-information{
+    font-size: 12px;
+    flex-direction: column;
+    word-wrap: break-word;
 }
 .scale-num{
     display: flex;

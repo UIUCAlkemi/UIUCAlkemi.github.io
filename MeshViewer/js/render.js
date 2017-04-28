@@ -6,6 +6,74 @@ var controls = null; // Three.js - Controls from TrackballControls.js
 
 var renderer = null; // Three.js - Renderer.
 
+var CANVAS_WIDTH = 0;
+var CANVAS_HEIGHT = 0;
+
+function startRender(){
+    resizeCanvas();
+
+    if (useVTK) {
+        serverVTKResponse(DATA);
+
+    } else {
+        serverJSONResponse(DATA);
+    }
+}
+
+$(window).resize(function () {
+    resizeCanvas();
+});
+
+function initializeMeshViewer(){
+
+    /*resetData();
+
+    parseData(data); // Parse the Data from the provided JSON
+
+    initializeCameras(); // Initialize the Camera
+
+    initializeLighting(); // Initialize the Lighting
+
+    initializeRenderer(); //  Initialize the Renderer
+
+    initializeCameraControls(); //  Initialize the Camera Controls
+
+    initializeMeshes(); //  Initialize the Meshes/
+
+    draw();*/
+
+    /*resetData();
+
+    getDataFromVTK(data);
+
+    parseData(data); // Parse the Data from the provided JSON
+
+    initializeCameras(); // Initialize the Camera
+
+    initializeLighting(); // Initialize the Lighting
+
+    initializeRenderer(); //  Iniitialize the Renderer
+
+    initializeCameraControls(); //  Initialize the Camera Controls.
+
+    initializeMeshes(); //  Initialize the Meshes.
+
+    draw();*/
+}
+//
+function resizeCanvas() {
+
+    CANVAS_WIDTH = window.innerWidth*0.76;
+    CANVAS_HEIGHT = window.innerHeight;
+
+    $('canvas').attr({
+        width: CANVAS_WIDTH,
+        height: CANVAS_HEIGHT
+    });
+
+    resizeRenderer();
+}
+
 function initializeCameras() {
     camera = new THREE.PerspectiveCamera(60.0, CANVAS_WIDTH / CANVAS_HEIGHT, 1, 1000);
     camera.position.z = 20;
@@ -47,7 +115,7 @@ function initializeRenderer() {
     renderer.domElement.addEventListener('mousedown', onDocumentMouseDown, false);
     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
 
-    resizeRenderer(CANVAS_WIDTH, CANVAS_HEIGHT);
+    resizeRenderer();
 }
 
 //  On Mouse Move Callback
@@ -70,6 +138,7 @@ function cursorPositionInCanvas(canvas, event) {
 
 //  On Mouse Down Callback
 function onDocumentMouseDown(event) {
+
     event.preventDefault();
 
     mouse.x = ((cursorPositionInCanvas(renderer.domElement, event)[0]) / $("canvas").width()) * 2 - 1;
@@ -111,17 +180,19 @@ function update() {
     controls.update(); // Update the Controls
 }
 
-function resizeRenderer(newWidth, newHeight) {
+function resizeRenderer() {
     if (renderer !== null) {
-        camera.aspect = newWidth / newHeight;
+        camera.aspect = CANVAS_WIDTH / CANVAS_HEIGHT;
         camera.updateProjectionMatrix();
-        renderer.setSize(newWidth, newHeight);
+        renderer.setSize(CANVAS_WIDTH, CANVAS_HEIGHT);
     }
 }
-
-function initializeMeshes() {
-
-    for(var zone in ZONES){
-        scene.add(ZONES[zone].mesh);
+/**
+* Renders the meshes associated with the object.
+* @param {Object} fenz - FACES, EDGES, NODES, or ZONES
+*/
+function initializeMeshes(fenz) {
+    for(var obj in fenz){
+        scene.add(fenz[obj].mesh);
     }
 }

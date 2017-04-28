@@ -3,12 +3,8 @@
 * by averaging the x, y, and z components and sets CENTER.
 */
 function setGeometryCenter(){
-    /*for (var i = 0; i < zones.length; i++) {
-        CENTER.x += zones[i].position.x;
-        CENTER.y += zones[i].position.y;
-        CENTER.z += zones[i].position.z;
-    }*/
-    for(zone in ZONES){
+
+    for(var zone in ZONES){
         CENTER.x += ZONES[zone].position.x;
         CENTER.y += ZONES[zone].position.y;
         CENTER.z += ZONES[zone].position.z;
@@ -19,6 +15,7 @@ function setGeometryCenter(){
     CENTER.y /= num_zones;
     CENTER.z /= num_zones;
 }
+
 /**
 * Computes the normal of a face given three nodes each represented by an 3d object.
 * Assuming the three nodes are not on a line
@@ -181,11 +178,11 @@ function greyscaleColormap(fVal, fMin, fMax) {
 * Executes barycentric shrinking and zone separation.
 */
 function updateZoneBaryCentricShrinkingAndZoneSeparation() {
-
+    /*if(ACTIVE_GEOMETRY == "zones"){ //TODO fix
+        return;
+    }*/
     //  For Each Zone,
     for (var zone in ZONES){
-
-
         //  I'm not really sure how this works again.
         //  But we don't fix what is not broken.
         var cartesianByCenter = new THREE.Vector3(
@@ -203,12 +200,12 @@ function updateZoneBaryCentricShrinkingAndZoneSeparation() {
         var centerZ = ZONES[zone].position.z;
 
         //  For Each Node within the Zone
-        for (var j = 0; j < nodes.length; j++) {
+        for (var node in NODES) {
 
             //  Get the Position of the Node.
-            var givenX = nodes[j].position.x;
-            var givenY = nodes[j].position.y;
-            var givenZ = nodes[j].position.z;
+            var givenX = NODES[node].position.x;
+            var givenY = NODES[node].position.y;
+            var givenZ = NODES[node].position.z;
 
             //  Compute the New Coordinates of the vertices, by adding the scaled distance to the center.
             var newX = centerX + move.x + barycentricShrinkFactor * (givenX - centerX);
@@ -216,9 +213,9 @@ function updateZoneBaryCentricShrinkingAndZoneSeparation() {
             var newZ = centerZ + move.z + barycentricShrinkFactor * (givenZ - centerZ);
 
             //  Set the new positions.
-            ZONES[zone].geometry.vertices[j].x = newX;
-            ZONES[zone].geometry.vertices[j].y = newY;
-            ZONES[zone].geometry.vertices[j].z = newZ;
+            ZONES[zone].geometry.vertices[node].x = newX;
+            ZONES[zone].geometry.vertices[node].y = newY;
+            ZONES[zone].geometry.vertices[node].z = newZ;
 
             //  Mark for update.
             ZONES[zone].mesh.geometry.verticesNeedUpdate = true;
