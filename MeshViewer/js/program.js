@@ -20,14 +20,8 @@ var facesMaterials = []; // Faces Materials
 var facesClouds = []; // Faces Meshes
 var facesStats = []; // Some stats of the faces
 
-var zones = []; // Array of Zone Objects parsed from the JSON files
-var zonesCenter = new THREE.Vector3(); // Center for the whole geometry by averaging the center of all meshes as a Vector
-var zonesGeoms = []; // Zones Geometry
-var zonesMaterials = []; // Zones Materials
-var zonesClouds = []; // Zones Meshes
-var zonesStats = []; // Some stats of the zones
-
-var ZONES = {};
+var ZONES = {}; //Contains Zone Objects parsed from JSON files
+var CENTER = new THREE.Vector3();
 
 var mouse = new THREE.Vector2();
 var offset = new THREE.Vector3();
@@ -49,6 +43,15 @@ function initializeProgram(width, height) {
         //$.getJSON("./models/decomposedTetra.json", serverJSONResponse); // Everything Runs from the CallBack here.
         serverJSONResponse(DATA);
     }
+}
+
+/**
+* Makes deep copy of and object.
+* @param {Object} obj - object to be compied.
+* @return {Object} - deep copy of above.
+*/
+function makeDeepCopy(obj){
+    return JSON.parse(JSON.stringify(obj));
 }
 
 //  The Main Body of the Program
@@ -175,25 +178,16 @@ function parseFaces(data) {
 function parseZones(data) {
     if (!useVTK) {
         for (var i = 0; i < data.zones.length; i++) {
-            zones[i] = data.zones[i];
-            ZONES[i] = data.zones[i];
+            //zones[i] = data.zones[i];
+            ZONES[i] = makeDeepCopy(data.zones[i]);
         }
     }
-    console.log("ZONES",ZONES)
-    // Calculate the center of the whole geometry
-    //  Add together all the positions.
-    for (var i = 0; i < zones.length; i++) {
-        zonesCenter.x += zones[i].position.x;
-        zonesCenter.y += zones[i].position.y;
-        zonesCenter.z += zones[i].position.z;
-    }
-    //  Divide by the number of the positions.
-    zonesCenter.x /= zones.length;
-    zonesCenter.y /= zones.length;
-    zonesCenter.z /= zones.length;
+    //console.log("FACES",ZONES)
+
+    setGeometryCenter();
 
     // Calculate the minimum, maximum dihedral angles and their inverse mean ratio
-    for (var i = 0; i < zones.length; i++) {
+    /*for (var i = 0; i < zones.length; i++) {
         var minDihedralAngle = Math.PI / 2;
         var maxDihedralAngle = 0.0;
         var inverseMeanRatio = 0.0;
@@ -242,36 +236,38 @@ function parseZones(data) {
             "maxDihedralAngle": maxDihedralAngle,
             "averageInverseMeanRatio": inverseMeanRatio / zoneFaces.length
         });
-    }
+        ZONES[i].minDihedralAngle = minDihedralAngle;
+        ZONES[i].maxDihedralAngle = maxDihedralAngle;
+        ZONES[i].averageInverseMeanRatio = inverseMeanRatio / zoneFaces.length;
+    }*/
 
-    console.log(zonesStats);
 
-    for (var i = 0; i < zones.length; i++) {
-        zonesGeoms[i] = new THREE.Geometry();
+    for (var i = 0; i < Object.keys(ZONES).length; i++) {
+        ZONES[i].geometry = new THREE.Geometry();
 
         for (var j = 0; j < nodes.length; j++) {
-            zonesGeoms[i].vertices.push(new THREE.Vector3(nodes[j].position.x, nodes[j].position.y, nodes[j].position.z));
+            ZONES[i].geometry.vertices.push(new THREE.Vector3(nodes[j].position.x, nodes[j].position.y, nodes[j].position.z));
+
         }
 
-        var zoneFaces = zones[i].connectivity.f
+        var zoneFaces = ZONES[i].connectivity.f
         for (var j = 0; j < zoneFaces.length; j++) {
             var zoneFace = faces[zoneFaces[j]];
             var zoneFaceNodes = zoneFace.connectivity.n
-            zonesGeoms[i].faces.push(new THREE.Face3(zoneFaceNodes[0], zoneFaceNodes[1], zoneFaceNodes[2]));
+            ZONES[i].geometry.faces.push(new THREE.Face3(zoneFaceNodes[0], zoneFaceNodes[1], zoneFaceNodes[2]));
         }
 
         var curZoneColor = Math.random() * 0xffffff;
-        zonesMaterials[i] = new THREE.MeshBasicMaterial({
+        ZONES[i].material = new THREE.MeshBasicMaterial({
             color: new THREE.Color(curZoneColor),
             side: THREE.DoubleSide
         });
 
-        zonesClouds[i] = new THREE.Mesh(zonesGeoms[i], zonesMaterials[i]);
-        zonesClouds[i].name = "Zone : " + zones[i].idx;
+        ZONES[i].mesh = new THREE.Mesh(ZONES[i].geometry, ZONES[i].material);
+        ZONES[i].mesh.name = "Zone : " + ZONES[i].idx;
     }
+    console.log("ZONES",ZONES);
 }
-
-
 
 // Parse data from VTK format
 // Adapted from an example of Three.js
@@ -362,12 +358,10 @@ function resetData() {
     facesClouds = []; // Faces Meshes
     facesStats = []; // Some stats of the faces
 
-    zones = []; // Array of Zone Objects parsed from the JSON files
-    zonesCenter = new THREE.Vector3(); // Center for the whole geometry by averaging the center of all meshes as a Vector
-    zonesGeoms = []; // Zones Geometry
-    zonesMaterials = []; // Zones Materials
-    zonesClouds = []; // Zones Meshes
-    zonesStats = []; // Some stats of the zones
+    //zones = []; // Array of Zone Objects parsed from the JSON files
+    CENTER = new THREE.Vector3(); // Center for the whole geometry by averaging the center of all meshes as a Vector
+    ZONES = {};
+    //zonesStats = []; // Some stats of the zones
 
     separatingFactor = 0.0; // A factor to separate zones
 

@@ -24,6 +24,7 @@ window.onload = function(){
             else if(file.name.substring(file.name.length-5) == ".json"){
                 useVTK = false;
                 DATA = JSON.parse(reader.result);
+                console.log("DATA",DATA)
                 startRender();
             }
 
@@ -74,43 +75,41 @@ function fillSelectedZoneInformation(zoneNumber) {
     //Clear out prior data
     $(".zone-information").empty();
     if (useVTK){
-        console.log(zoneNumber)
+
         $(".zone-information").text(zoneNumber);
         return;
     }
 
     var zone_information = {
-        idxString:`IDX: ${zones[zoneNumber].idx}`,
-        domainIdxString:`Domain ID: ${zones[zoneNumber].domainID}`,
-        globalIdxString:`Global ID: ${zones[zoneNumber].globalID}`,
-        positonString:`Position: (${zones[zoneNumber].position.x}, ${zones[zoneNumber].position.y}, ${zones[zoneNumber].position.z})`,
+        idxString:`IDX: ${ZONES[zoneNumber].idx}`,
+        domainIdxString:`Domain ID: ${ZONES[zoneNumber].domainID}`,
+        globalIdxString:`Global ID: ${ZONES[zoneNumber].globalID}`,
+        positonString:`Position: (${ZONES[zoneNumber].position.x}, ${ZONES[zoneNumber].position.y}, ${ZONES[zoneNumber].position.z})`,
         classificationString: "Classification: ",
         geometry: "<br>GEOMETRY",
         geometryString: "",
         connectivity: "<br>CONNECTIVITY",
-        nodesString:`Nodes: [${zones[zoneNumber].connectivity.n}]`,
-        edgesString: `Edges: [${zones[zoneNumber].connectivity.e}]`,
-        facesString: `Faces: [${zones[zoneNumber].connectivity.f}]`,
-        sidesString: `Sides: [${zones[zoneNumber].connectivity.s}]`,
-        cornersString:`Corners: [${zones[zoneNumber].connectivity.c}]`,
-        zonesString: `Zones: [${zones[zoneNumber].connectivity.z_n}]`
+        nodesString:`Nodes: [${ZONES[zoneNumber].connectivity.n}]`,
+        edgesString: `Edges: [${ZONES[zoneNumber].connectivity.e}]`,
+        facesString: `Faces: [${ZONES[zoneNumber].connectivity.f}]`,
+        sidesString: `Sides: [${ZONES[zoneNumber].connectivity.s}]`,
+        cornersString:`Corners: [${ZONES[zoneNumber].connectivity.c}]`,
+        zonesString: `Zones: [${ZONES[zoneNumber].connectivity.z_n}]`
     };
 
 
-    for (var i = 0; i < zones[zoneNumber].classification.length; i++) {
-        zone_information.classificationString += " " + zones[zoneNumber].classification[i];
+    for (var i = 0; i < ZONES[zoneNumber].classification.length; i++) {
+        zone_information.classificationString += " " + ZONES[zoneNumber].classification[i];
     }
 
 
-    for (var i = 0; i < zones[zoneNumber].geom.length; i++) {
-        zone_information.geometryString += `(${zones[zoneNumber].geom[i].x }, ${zones[zoneNumber].geom[i].y}, ${zones[zoneNumber].geom[i].z})`;
+    for (var i = 0; i < ZONES[zoneNumber].geom.length; i++) {
+        zone_information.geometryString += `(${ZONES[zoneNumber].geom[i].x }, ${ZONES[zoneNumber].geom[i].y}, ${ZONES[zoneNumber].geom[i].z})`;
     }
 
 
     for(var key in zone_information){
         $(".zone-information").append(zone_information[key] + "<br>");
     }
-
-    console.log(zonesStats[zoneNumber].minDihedralAngle);
 
 }

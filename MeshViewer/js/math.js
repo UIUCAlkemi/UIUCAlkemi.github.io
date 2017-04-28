@@ -1,5 +1,28 @@
-// Compute the normal of a face given three nodes each represented by an 3d object
-// Assuming the three nodes are not on a line
+/**
+* Computes center of the geometry represented by DATA
+* by averaging the x, y, and z components and sets CENTER.
+*/
+function setGeometryCenter(){
+    /*for (var i = 0; i < zones.length; i++) {
+        CENTER.x += zones[i].position.x;
+        CENTER.y += zones[i].position.y;
+        CENTER.z += zones[i].position.z;
+    }*/
+    for(zone in ZONES){
+        CENTER.x += ZONES[zone].position.x;
+        CENTER.y += ZONES[zone].position.y;
+        CENTER.z += ZONES[zone].position.z;
+    }
+    //  Divide by the number of the positions.
+    var num_zones = Object.keys(ZONES).length;
+    CENTER.x /= num_zones;
+    CENTER.y /= num_zones;
+    CENTER.z /= num_zones;
+}
+/**
+* Computes the normal of a face given three nodes each represented by an 3d object.
+* Assuming the three nodes are not on a line
+*/
 function computeNormal(n1, n2, n3) {
     var v1 = [n2.x - n1.x, n2.y - n1.y, n2.z - n1.z];
     var v2 = [n3.x - n1.x, n3.y - n1.y, n3.z - n1.z];
@@ -13,7 +36,9 @@ function computeNormal(n1, n2, n3) {
     return normalVector;
 }
 
-// Compute the cross product of two vectors each represented by an array
+/**
+* Compute the cross product of two vectors each represented by an array.
+*/
 function computeCrossProduct(v1, v2) {
     var crossProduct = [];
     var len = v1.length;
@@ -23,13 +48,17 @@ function computeCrossProduct(v1, v2) {
     return crossProduct;
 }
 
-// Compute the dihedral angle between two planes given their normals each represented by an array
+/**
+* Computes the dihedral angle between two planes given their normals each represented by an array
+*/
 function computeDihedralAngle(normal1, normal2) {
     return Math.acos(Math.abs(computeInnerProduct(
         [normal1.x, normal1.y, normal1.z], [normal2.x, normal2.y, normal2.z])));
 }
 
-// Compute the inner product of two vectors each represented by an array
+/**
+* Compute the inner product of two vectors each represented by an array.
+*/
 function computeInnerProduct(v1, v2) {
     var innerProduct = 0.0;
     for (var i = 0; i < v1.length; i++) {
@@ -38,7 +67,9 @@ function computeInnerProduct(v1, v2) {
     return innerProduct;
 }
 
-// Compute the inverse mean ratio for a triangle face
+/**
+* Computes the inverse mean ratio for a triangle face.
+*/
 function computeFaceInverseMeanRatio(v1, v2, v3) {
     var optimalMatrix = [[1.0, 0.5], [0.0, Math.sqrt(3.0) / 2.0]];
     var optimalMatrixInverse = inverse2d2(optimalMatrix);
@@ -60,18 +91,24 @@ function computeFaceInverseMeanRatio(v1, v2, v3) {
     return inverseMeanRatio;
 }
 
-// the determinant of a 2*2 matrix
+/**
+* Computes the determinant of a 2x2 matrix.
+*/
 function determinant2d2(matrix) {
     return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
 }
 
-// the inverse of a 2*2 matrix
+/**
+* Computes the inverse of a 2x2 matrix.
+*/
 function inverse2d2(matrix) {
     var det = determinant2d2(matrix);
     return [[matrix[1][1] / det, -matrix[0][1] / det], [-matrix[1][0] / det, matrix[0][0] / det]];
 }
 
-// multiply two 2*2 matrix
+/**
+* Computes the product of two 2x2 matrices.
+*/
 function multiply2d2(matrix1, matrix2) {
     return [
         [matrix1[0][0] * matrix2[0][0] + matrix1[0][1] * matrix2[1][0], matrix1[0][0] * matrix2[0][1] + matrix1[0][1] * matrix2[1][1]],
@@ -79,7 +116,9 @@ function multiply2d2(matrix1, matrix2) {
     ];
 }
 
-// show random colors in meshes
+/**
+* Sets the color of the meshes to random.
+*/
 function showRandomColors() {
     for (var i = 0; i < zones.length; i++) {
         var curZoneColor = Math.random() * 0xffffff;
@@ -88,7 +127,10 @@ function showRandomColors() {
     }
 }
 
-// Change the color of the mesh according to some stat field and some function here
+/**
+* Sets the color of the meshes according to some stat field and some colormap function.
+*
+*/
 function showColors(fieldName, colormapFunc) {
     var fMet = false;
     var fMax = 0.0;
@@ -111,7 +153,9 @@ function showColors(fieldName, colormapFunc) {
     }
 }
 
-// The infamous rainbow color map, normalized to the data range
+/**
+* Normalized rainbow color mapping.
+*/
 function rainbowColormap(fVal, fMin, fMax) {
     var dx = 0.8;
     var fValNormalized = (fVal - fMin) / (fMax - fMin);
@@ -123,7 +167,9 @@ function rainbowColormap(fVal, fMin, fMax) {
     return color;
 }
 
-// The greyscale color map
+/**
+* Grey scale color mapping.
+*/
 function greyscaleColormap(fVal, fMin, fMax) {
     var c = 255 * ((fVal - fMin) / (fMax - fMin));
     var color = [Math.round(c), Math.round(c), Math.round(c), 255];
@@ -131,28 +177,30 @@ function greyscaleColormap(fVal, fMin, fMax) {
 }
 
 
-// To conduct bary centric shrinking on each zone
+/**
+* Executes barycentric shrinking and zone separation.
+*/
 function updateZoneBaryCentricShrinkingAndZoneSeparation() {
 
     //  For Each Zone,
-    for (var i = 0; i < zonesClouds.length; i++) {
+    for (var zone in ZONES){
 
 
         //  I'm not really sure how this works again.
         //  But we don't fix what is not broken.
         var cartesianByCenter = new THREE.Vector3(
-            zones[i].position.x - zonesCenter.x,
-            zones[i].position.y - zonesCenter.y,
-            zones[i].position.z - zonesCenter.z);
+            ZONES[zone].position.x - CENTER.x,
+            ZONES[zone].position.y - CENTER.y,
+            ZONES[zone].position.z - CENTER.z);
 
         var movePolar = cartesianToPolar(cartesianByCenter);
         movePolar.w *= separatingFactor;
         var move = polarToCartesian(movePolar);
 
         //   Find the center of the zone.
-        var centerX = zones[i].position.x;
-        var centerY = zones[i].position.y;
-        var centerZ = zones[i].position.z;
+        var centerX = ZONES[zone].position.x;
+        var centerY = ZONES[zone].position.y;
+        var centerZ = ZONES[zone].position.z;
 
         //  For Each Node within the Zone
         for (var j = 0; j < nodes.length; j++) {
@@ -168,17 +216,21 @@ function updateZoneBaryCentricShrinkingAndZoneSeparation() {
             var newZ = centerZ + move.z + barycentricShrinkFactor * (givenZ - centerZ);
 
             //  Set the new positions.
-            zonesGeoms[i].vertices[j].x = newX;
-            zonesGeoms[i].vertices[j].y = newY;
-            zonesGeoms[i].vertices[j].z = newZ;
+            ZONES[zone].geometry.vertices[j].x = newX;
+            ZONES[zone].geometry.vertices[j].y = newY;
+            ZONES[zone].geometry.vertices[j].z = newZ;
 
             //  Mark for update.
-            zonesClouds[i].geometry.verticesNeedUpdate = true;
+            ZONES[zone].mesh.geometry.verticesNeedUpdate = true;
         }
     }
 }
 
-// Convert the Cartesian vector(x,y,z) representation to the polar vector(x=cosTheta,y=sinTheta,z=sinPhi,w=r) representation
+/**
+* Converts a cartesian vector to its polar equivalent. TODO function is incorrect?
+* @param {Vector3} cartesian - (x,y,z)
+* @return {Vector4} - (cosTheta,sinTheta,sinPhi,radial distance)
+*/
 function cartesianToPolar(cartesian) {
     var polar = new THREE.Vector4();
     polar.w = cartesian.length();
@@ -188,7 +240,11 @@ function cartesianToPolar(cartesian) {
     return polar;
 }
 
-// Convert the polar vector(x=cosTheta,y=sinTheta,z=sinPhi,w=r) representation to the Cartesian vector(x,y,z) representation
+/**
+* Converts a polar vector to its cartesian equivalent.
+* @param {Vector4} polar - cosTheta,sinTheta,sinPhi,radial distance)
+* @return {Vector3} - (x,y,z)
+*/
 function polarToCartesian(polar) {
     var cartesian = new THREE.Vector3();
     cartesian.x = polar.x * polar.w;

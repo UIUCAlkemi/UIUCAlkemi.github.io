@@ -82,9 +82,9 @@ function onDocumentMouseDown(event) {
     var intersects = raycaster.intersectObjects(scene.children, true);
 
     if (intersects.length > 0) {
-        console.log(intersects)
+        //console.log(intersects)
         var obj_name = intersects[0].object.name;
-        console.log(obj_name);
+        //console.log(obj_name);
         //console.log(obj_name.split(" ")[2]);
         fillSelectedZoneInformation(obj_name.split(" ")[2]);
     }
@@ -120,8 +120,8 @@ function resizeRenderer(newWidth, newHeight) {
 }
 
 function initializeMeshes() {
-    //  Add the Zones
-    for (var i = 0; i < zonesClouds.length; i++) {
-        scene.add(zonesClouds[i]);
+
+    for(var zone in ZONES){
+        scene.add(ZONES[zone].mesh);
     }
 }
