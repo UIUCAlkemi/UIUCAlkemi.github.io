@@ -19,6 +19,8 @@
         <div class="menu-row">
             <input type="file"id="file_input"/>
             <label class="file-container"for="file_input">Load VTK/JSON</label>
+            <div class="nav-icon inactive" id="use_default"></div>
+            <div class="nav-icon" id="help">?</div>
         </div>
 
         <div class="menu-row">
@@ -44,18 +46,25 @@
         </div>
 
         <div class="group-row">
+
             <label>Field Type:</label>
-            <div class="menu-row">
-                <input type="radio" name="field" id="showMinDihedralAngle" value="minDihedralAngle" checked>
-                <label for="showMinDihedralAngle">Min Dihedral Angle</label>
+            <div class="menu-row contains-radio">
+                <div class="fake-radio" id="minDihedralAngle">
+                    <div class="fake-radio-center"></div>
+                </div>
+                <label>Min Dihedral Angle</label>
             </div>
-            <div class="menu-row">
-                <input type="radio" name="field" id="showMaxDihedralAngle" value="maxDihedralAngle">
-                <label for="showMaxDihedralAngle">Max Dihedral Angle</label>
+            <div class="menu-row contains-radio">
+                <div class="fake-radio" id="maxDihedralAngle">
+                    <div class="fake-radio-center" style="display:none;"></div>
+                </div>
+                <label>Max Dihedral Angle</label>
             </div>
-            <div class="menu-row">
-                <input type="radio" name="field" id="showAverageMeanInverseRatio" value="averageMeanInverseRatio">
-                <label for="showAverageMeanInverseRatio">Avg Mean Inverse Ratio</label>
+            <div class="menu-row contains-radio">
+                <div class="fake-radio" id="averageMeanInverseRatio">
+                    <div class="fake-radio-center" style="display:none;"></div>
+                </div>
+                <label>Avg Mean Inverse Ratio</label>
             </div>
 
         </div>
@@ -76,9 +85,9 @@
             </div>
         </div>
 
-        <div class="information-wrapper">
+        <div class="zone-information-wrapper">
             <div class="zone-information" id="general_info">
-                
+
             </div>
             <div class="zone-information" id="geometry_info">
 
@@ -89,12 +98,18 @@
         </div>
 
     </div>
-    <canvas></canvas>
+
+    <div>
+        <div class="info-panel"></div>
+        <canvas></canvas>
+    </div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script type="text/javascript" src="js/libs/three.min.js"></script>
     <script type="text/javascript" src="js/libs/TrackballControls.js"></script>
     <script type="text/javascript" src="js/libs/VTKLoader.js"></script>
+    <script type="text/javascript" src="models/example_json.js"></script>
     <script type="text/javascript" src="js/render.js"></script>
     <script type="text/javascript" src="js/math.js"></script>
     <script src="js/index.js"></script>

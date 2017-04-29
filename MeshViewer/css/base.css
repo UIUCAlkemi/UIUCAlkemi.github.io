@@ -26,7 +26,7 @@ html{
 }
 
 body{
-    overflow:auto;
+    overflow:hidden;
     position: relative;
     height: 100%;
     width: 100%;
@@ -67,9 +67,13 @@ canvas{
 
 .group-row .menu-row{
     justify-content: flex-start;
-    padding: 0;
+    padding: 0px 0px 0px 0px;
 }
-.information-wrapper{
+
+.menu-row.contains-radio{
+    padding-left: 5px;
+}
+.zone-information-wrapper{
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -84,9 +88,72 @@ canvas{
     flex-direction: column;
     word-wrap: break-word;
 }
+.zone-information>label{
+    font-weight: 400;
+}
 .scale-num{
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
+}
+.nav-icon{
+    border: 1px solid #999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #999999;
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    font-size: 24px;
+    margin-left: 5px;
+    cursor: pointer;
+
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+}
+
+#help.active{
+    color: #20B2AA;
+}
+/*.nav-icon:hover{
+    border-color: #262626;
+    color: #262626;
+}*/
+
+#use_default{
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: 70% 70%;
+    -moz-background-size: 70% 70%;
+    -o-background-size: 70% 70%;
+    background-size: 70% 70%;
+    background-image: url(geometry.png);
+
+}
+
+#use_default.inactive{
+    background-image: url(geometry.png);
+}
+
+#use_default.active{
+    background-image: url(geometry-active.png);
+}
+
+.info-panel{
+    position: absolute;
+    height: 97%;
+    width: 400px;
+    border: 1px solid #999999;
+    border-radius: 5px;
+    margin: 10px 0px 0px 5px;
+    display: none;
+    white-space: pre;
+    overflow-y: scroll;
+    padding:5px;
+    font-size: 12px;
 }

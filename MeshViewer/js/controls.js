@@ -5,6 +5,11 @@ window.onload = function(){
 
     var file_input = document.getElementById('file_input');
     file_input.addEventListener('change', function(e) {
+        if($("#use_default").hasClass("active")){
+            //clearScene();
+            $("#use_default").removeClass("active");
+            $("#use_default").addClass("inactive");
+        }
 
         var file = file_input.files[0];
         //Change input styling
@@ -46,15 +51,17 @@ $("#camera_control").on('click', function(){
 });
 
 $("#color_control").on('click', function(){
-    var colormapFunc = "";
+    //Get the active field type
+    var active_field = $(".fake-radio-center:visible").parent().attr("id");
+    console.log(active_field)
     if (this.checked) {
-        colormapFunc = rainbowColormap;
+        //showColors(active_field, rainbowColormap);
+        showRainbowColors();
     }
     else {
-        colormapFunc = greyscaleColormap;
+        //showColors(active_field,greyscaleColormap);
+        showGreyColors();
     }
-    var fieldName = "minDihedralAngle";
-    showColors(fieldName, colormapFunc);
 });
 
 $("#BarycentricShrinkingInput").on("input change", function () {
@@ -68,6 +75,42 @@ $("#ZoneSeparationInput").on("input change", function () {
     $("#zone_num").text(separatingFactor);
     updateZoneBaryCentricShrinkingAndZoneSeparation();
 });
+
+/**
+* Hiding and show the info panel.
+*/
+$("#help").on('click', function(){
+    $(".info-panel").toggle();
+    $(this).toggleClass("active");
+});
+
+/**
+* Implements allowing user to use example JSON.
+*/
+$("#use_default").on('click', function(){
+    $(this).toggleClass("inactive");
+    $(this).toggleClass("active");
+
+    if($(this).hasClass("active")){
+        $(".file-container").text("Example JSON");
+        useVTK = false;
+        DATA = example;
+        startRender();
+    }
+    else{
+        clearScene();
+        $(".file-container").text("Load VTK/JSON");
+    }
+});
+
+/**
+* Creating pseudo radio input elements for nicer styling.
+*/
+$(".fake-radio").on('click', function(){
+    $(".fake-radio-center").hide();
+    $(this).find(".fake-radio-center").show();
+});
+
 
 // FIll the Information Space with the Information from the selected zone
 function fillSelectedZoneInformation(zoneNumber) {
@@ -94,11 +137,11 @@ function fillSelectedZoneInformation(zoneNumber) {
     };
 
     for(key in general_info){
-        $("#general_info").append(`${key}: ${general_info[key]}` + "<br>");
+        $("#general_info").append(`<label>${key}: </label>${general_info[key]}` + "<br>");
     }
 
     //Adding geometry info
-    $("#geometry_info").append("<br><label>GEOMETRY<label><br>");
+    $("#geometry_info").append("<br>GEOMETRY<br>");
     for (var i = 0; i < ZONES[zoneNumber].geom.length; i++) {
         $("#geometry_info").append(`(${ZONES[zoneNumber].geom[i].x }, ${ZONES[zoneNumber].geom[i].y}, ${ZONES[zoneNumber].geom[i].z})<br>`);
     }
@@ -113,9 +156,15 @@ function fillSelectedZoneInformation(zoneNumber) {
         "Zones": `[${ZONES[zoneNumber].connectivity.z_n.join(", ")}]`
     };
 
-    $("#connectivity_info").append("<br><label>CONNECTIVITY<label><br>");
+    $("#connectivity_info").append("<br>CONNECTIVITY<br>");
     for(key in connectivity_info){
-        $("#connectivity_info").append(`${key}: ${connectivity_info[key]}` + "<br>");
+        $("#connectivity_info").append(`<label>${key}: </label>${connectivity_info[key]}` + "<br>");
     }
+}
+
+/**
+* Resets controls to default values.
+*/
+function resetControls(){
 
 }

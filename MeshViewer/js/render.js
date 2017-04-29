@@ -14,9 +14,11 @@ function startRender(){
 
     if (useVTK) {
         serverVTKResponse(DATA);
+        $(".info-panel").text(DATA);
 
     } else {
         serverJSONResponse(DATA);
+        $(".info-panel").text(JSON.stringify(DATA, null, 2));
     }
 }
 
@@ -24,6 +26,9 @@ $(window).resize(function () {
     resizeCanvas();
 });
 
+function printZones(){
+    //TODO
+}
 function initializeMeshViewer(){
 
     /*resetData();
@@ -194,5 +199,16 @@ function resizeRenderer() {
 function initializeMeshes(fenz) {
     for(var obj in fenz){
         scene.add(fenz[obj].mesh);
+    }
+}
+function clearScene(){
+    //console.log(scene.children);
+    for (i = scene.children.length - 1; i >= 0; i--) {
+        var obj = scene.children[i];
+        if (obj.type == "Mesh" || obj.type   == "Line" || obj.type   == "Points") {
+            scene.remove(obj);
+            obj.geometry.dispose();
+            obj.material.dispose();
+        }
     }
 }

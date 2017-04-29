@@ -47,7 +47,10 @@ function serverJSONResponse(data) {
 
     initializeMeshes(ZONES); //  Initialize the Meshes/
 
+    printZones();
+
     draw();
+
 }
 
 
@@ -298,6 +301,7 @@ function serverVTKResponse(data) {
 
     initializeMeshes(ZONES); //  Initialize the Meshes.
 
+    printZones();
     draw();
 }
 

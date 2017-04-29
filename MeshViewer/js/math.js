@@ -116,11 +116,27 @@ function multiply2d2(matrix1, matrix2) {
 /**
 * Sets the color of the meshes to random.
 */
-function showRandomColors() {
-    for (var i = 0; i < zones.length; i++) {
-        var curZoneColor = Math.random() * 0xffffff;
-        zonesMaterials[i].color = new THREE.Color(curZoneColor);
-        zonesClouds[i].material.needsUpdate = true;
+function showRainbowColors() {
+    for (var zone in ZONES) {
+        ZONES[zone].material.color = new THREE.Color(Math.random() * 0xffffff);
+        ZONES[zone].mesh.material.needsUpdate = true;
+    }
+}
+
+/**
+* Use Matlab rgb -> grey alg to convert mesh colors to grey.
+*/
+function showGreyColors(){
+    //0.2989 * R + 0.5870 * G + 0.1140 * B
+    for(var zone in ZONES){
+        var r = ZONES[zone].material.color.r*255;
+        var g = ZONES[zone].material.color.g*255;
+        var b = ZONES[zone].material.color.b*255;
+        //console.log("COLOR",r,g,b)
+        var weighted_sum = Math.round(0.3*r + 0.6*g + 0.1*b);
+        //console.log("NEW", weighted_sum)
+        ZONES[zone].material.color = new THREE.Color(`rgb(${weighted_sum}, ${weighted_sum}, ${weighted_sum})`);
+        ZONES[zone].mesh.material.needsUpdate = true;
     }
 }
 
@@ -129,11 +145,12 @@ function showRandomColors() {
 *
 */
 function showColors(fieldName, colormapFunc) {
+
     var fMet = false;
     var fMax = 0.0;
     var fMin = 0.0;
-    for (var i = 0; i < zonesStats.length; i++) {
-        var fVal = zonesStats[i][fieldName];
+    for (var zone in ZONES) {
+        var fVal = ZONES[zone][fieldName];
         if (!fMet || fVal > fMax) {
             fMax = fVal;
         }
@@ -141,12 +158,10 @@ function showColors(fieldName, colormapFunc) {
             fMin = fVal;
         }
         fMet = true;
-    }
-    for (var i = 0; i < zones.length; i++) {
-        var fVal = zonesStats[i][fieldName];
+
         var fColor = colormapFunc(fVal, fMin, fMax);
-        zonesMaterials[i].color = new THREE.Color("rgb(" + fColor[0] + ", " + fColor[1] + ", " + fColor[2] + ")");
-        zonesClouds[i].material.needsUpdate = true;
+        ZONES[zone].material.color = new THREE.Color("rgb(" + fColor[0] + ", " + fColor[1] + ", " + fColor[2] + ")");
+        ZONES[zone].mesh.material.needsUpdate = true;
     }
 }
 
@@ -160,7 +175,7 @@ function rainbowColormap(fVal, fMin, fMax) {
     var R = Math.max(0.0, (3.0 - Math.abs(g - 4.0) - Math.abs(g - 5.0)) / 2.0) * 255;
     var G = Math.max(0.0, (4.0 - Math.abs(g - 2.0) - Math.abs(g - 4.0)) / 2.0) * 255;
     var B = Math.max(0.0, (3.0 - Math.abs(g - 1.0) - Math.abs(g - 2.0)) / 2.0) * 255;
-    color = [Math.round(R), Math.round(G), Math.round(B), 255];
+    color = [Math.round(R), Math.round(G), Math.round(B)];
     return color;
 }
 
@@ -169,7 +184,7 @@ function rainbowColormap(fVal, fMin, fMax) {
 */
 function greyscaleColormap(fVal, fMin, fMax) {
     var c = 255 * ((fVal - fMin) / (fMax - fMin));
-    var color = [Math.round(c), Math.round(c), Math.round(c), 255];
+    var color = [Math.round(c), Math.round(c), Math.round(c)];
     return color;
 }
 

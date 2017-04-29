@@ -89,14 +89,6 @@ input[type="checkbox"]:checked+.toggle-label .toggle-switch {
     content: "GREY";
 }
 
-/** RADIO **/
-input[type="radio"]{
-    margin-right: 5px;
-}
-input[type="radio"]+label{
-    font-size: 14px;
-}
-
 /** RANGE **/
 input[type="range"]{
     -webkit-appearance: none;
@@ -126,6 +118,8 @@ input[type=range]::-webkit-slider-runnable-track {
     justify-content: center;
     align-items: center;
     color: #CCCCCC;
+    cursor: pointer;
+
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -143,4 +137,31 @@ input[type=range]::-webkit-slider-runnable-track {
 	overflow: hidden;
 	position: absolute;
 	z-index: -1;
+}
+
+/** RADIO **/
+.fake-radio{
+    border: 1px solid #999999;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px;
+}
+
+.fake-radio + label{
+    font-size: 14px;
+}
+.fake-radio-center{
+    height: 100%;
+    flex: 1;
+    border-radius: 10px;
+    background-color: #20B2AA;
+}
+
+.fake-radio, .fake-radio-center{
+    cursor: pointer;
 }
